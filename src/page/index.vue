@@ -424,7 +424,7 @@ export default {
       //   //this.$router.push({ path: '/dashboard/dispatchDashboard' });
       //   this.$emit('login');
       // } else {
-        this.$router.push({ path: '/orderManage/physicalOrder/physicalOrderList' });
+        this.$router.push({ path: '/nstitutionalRating/rating/ratingList' });
       // }
     },
     getData() {

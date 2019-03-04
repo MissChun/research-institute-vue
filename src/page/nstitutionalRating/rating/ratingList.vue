@@ -27,7 +27,7 @@
       <div class="operation-btn text-right">
         <!-- <el-button type="primary" plain>导入</el-button> -->
         <!-- <el-button type="primary">导出</el-button> -->
-        <el-button type="success">新增</el-button>
+        <el-button type="success" @click="goAddLink">新增</el-button>
       </div>
       <div class="table-list">
         <el-table :data="tableData" stripe style="width: 100%" size="mini" v-loading="pageLoading" :class="{'tabal-height-500':!tableData.length}">
@@ -110,7 +110,9 @@ export default {
     }
   },
   methods: {
-    
+    goAddLink(){
+      window.open(`/#/nstitutionalRating/rating/ratingEdit`,'_blank');
+    }
     
   },
   created() {

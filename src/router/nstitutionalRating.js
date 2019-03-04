@@ -24,6 +24,14 @@ export default {
                 title: '医疗机构评级列表',
             },
             component: (resolve) => require(['../page/nstitutionalRating/rating/ratingList'], resolve),
+        },{
+            path: 'ratingEdit',
+            name: 'ratingEdit',
+            meta: { 
+                isVerificationL: true,
+                title: '医疗机构评级编辑',
+            },
+            component: (resolve) => require(['../page/nstitutionalRating/rating/ratingEdit'], resolve),
         }]
     }]
 }
