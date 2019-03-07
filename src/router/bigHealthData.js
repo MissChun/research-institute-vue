@@ -8,4 +8,13 @@ export default {
         iconName: 'icon-setting'
     },
     component: (resolve) => require(['../page/bigHealthData/bigHealthData'], resolve),
+    children: [{
+        path: 'healthDataDisplay',
+        name: 'healthDataDisplay',
+        meta: { 
+            isVerificationL: true,
+            title: '健康大数据',
+        },
+        component: (resolve) => require(['../page/bigHealthData/healthDataDisplay'], resolve),
+    }]
 }
