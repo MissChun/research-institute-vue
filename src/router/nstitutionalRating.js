@@ -6,6 +6,7 @@ export default {
         title: '医疗机构评级',
         iconName: 'icon-setting'
     },
+    redirect: '/nstitutionalRating/rating/ratingList',
     component: (resolve) => require(['../page/nstitutionalRating/nstitutionalRating'], resolve),
     children: [{
         path: 'rating',

@@ -29,24 +29,76 @@
             <div class="detail-form-title text-center">基础信息</div>
             <el-form class="addheaduserform detail-form" label-width="120px" ref="addFormSetpOne" :rules="rules" :model="editMsgForm" status-icon>
               <el-row :gutter="40">
-                <el-col :span="8">
-                  <el-form-item label="承运商:" prop="name">
-                    <el-input placeholder="请输入" type="text" v-model.trim="editMsgForm.name"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="联系人:" prop="contact_name">
-                    <el-input placeholder="请输入" type="text" v-model.trim="editMsgForm.contact_name"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="联系方式:" prop="contact_phone">
-                    <el-input placeholder="请输入" type="text" v-model.trim="editMsgForm.contact_phone"></el-input>
+                <el-col :span="22">
+                  <el-form-item label="机构简介:" prop="name">
+                    <el-input placeholder="请输入" type="textarea" :rows="4" v-model.trim="editMsgForm.name"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row :gutter="40">
-
+                <el-col :span="22">
+                  <el-form-item label="评分维度1:" prop="name">
+                      <el-row >
+                            <el-col :span="2" class="text-center">{{dimension}}分</el-col>
+                            <el-col :span="22">
+                                <div class="block">
+                                    <el-slider v-model="dimension" :max="10"></el-slider>
+                                </div>
+                            </el-col>
+                        </el-row>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="22">
+                  <el-form-item label="评分维度2:" prop="name">
+                      <el-row >
+                            <el-col :span="2" class="text-center">{{dimension}}分</el-col>
+                            <el-col :span="22">
+                                <div class="block">
+                                    <el-slider v-model="dimension" :max="10"></el-slider>
+                                </div>
+                            </el-col>
+                        </el-row>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="22">
+                  <el-form-item label="评分维度3:" prop="name">
+                      <el-row >
+                            <el-col :span="2" class="text-center">{{dimension}}分</el-col>
+                            <el-col :span="22">
+                                <div class="block">
+                                    <el-slider v-model="dimension" :max="10"></el-slider>
+                                </div>
+                            </el-col>
+                        </el-row>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="22">
+                  <el-form-item label="评分维度4:" prop="name">
+                      <el-row >
+                            <el-col :span="2" class="text-center">{{dimension}}分</el-col>
+                            <el-col :span="22">
+                                <div class="block">
+                                    <el-slider v-model="dimension" :max="10"></el-slider>
+                                </div>
+                            </el-col>
+                        </el-row>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="40">
+                <el-col :span="8">
+                  <el-form-item label="标签:" prop="name">
+                    <el-select v-model="tag" multiple collapse-tags placeholder="请选择" @change="selectTags">
+                        <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="22">
+                  <el-form-item label="">
+                      {{tag}}
+                    <el-tag v-for="item in tags" :key="item.id" closable >{{item.label}}</el-tag>
+                  </el-form-item>
+                </el-col>
               </el-row>
             </el-form>
             <div class="detail-btn">
@@ -82,6 +134,7 @@ export default {
   },
   data() {
     return {
+      dimension:0,
       pageLoading: false,
       // address: {
       //   province: '',
@@ -95,6 +148,29 @@ export default {
       },
       addType: '默认新增',
       selectCustomer: '',
+      tag:[],
+      tags:[],
+      options:[{
+          id:1,
+          value:'tag',
+          label:'标签1'
+      },{
+          id:2,
+          value:'tag',
+          label:'标签2'
+      },{
+          id:3,
+          value:'tag',
+          label:'标签3'
+      },{
+          id:4,
+          value:'tag',
+          label:'标签4'
+      },{
+          id:5,
+          value:'tag',
+          label:'标签5'
+      }],
       editMsgForm: {
         name: '',
         contact_name: '',
@@ -156,6 +232,7 @@ export default {
     if (this.id) {
       this.getDetail();
     }
+    // this.selectTags();
   },
   methods: {
     returnToPage: function() {
@@ -164,6 +241,16 @@ export default {
       } else {
         this.$router.push({ path: "/basicDataManage/supplierManage/carrierManage/carrierManagelist" });
       }
+    },
+    selectTags(){
+        this.tags = [];
+        this.options.forEach(item=>{
+            this.tag.forEach(tagItem=>{
+                if(item.id===tagItem){
+                    this.tags.push(item);
+                }
+            })
+        })
     },
     handleRemove(file, fileList) {
 
