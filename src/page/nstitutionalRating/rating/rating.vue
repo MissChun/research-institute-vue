@@ -6,12 +6,11 @@
 </template>
 <script>
 export default {
-  name: "rating",
+  name: 'rating',
   data() {
-    return {};
+    return {}
   }
-};
+}
 </script>
 <style>
 </style>
-

@@ -1,7 +1,6 @@
 /**
  * Created by wansan on 2017/10/10.
  */
-import regularReg from '../../assets/js/regular.js';
 export default {
   inintString: '',
   inintObject: {},
@@ -31,11 +30,11 @@ export default {
       tips: '请输入数值正数且最多两位小数的数值'
     },
     accounts: {
-      match: /^(\-|\+)?\d+(\.\d{1,2})?$/,
+      match: /^(\-|\+)?\d+(\.\d{1,2})?$/, // eslint-disable-line
       tips: '请输入数值且最多两位小数的数值'
     },
     tonnage: {
-      match: /^(\-|\+)?\d+(\.\d{1,3})?$/,
+      match: /^(\-|\+)?\d+(\.\d{1,3})?$/, // eslint-disable-line
       tips: '请输入数值且最多三位小数的数值'
     },
     variableRate: {
@@ -47,7 +46,7 @@ export default {
       tips: '请输入数值正数且最多五位小数的数值'
     },
     mile: {
-      match: /^(\-|\+)?\d+(\.\d{1,1})?$/,
+      match: /^(\-|\+)?\d+(\.\d{1,1})?$/, // eslint-disable-line
       tips: '请输入数值且最多一位小数的数值'
     },
     name: {
@@ -84,4 +83,4 @@ export default {
       tips: '密码长度6-16位，支持数字、字母、字符（除空格）,至少包含2种'
     }
   }
-};
+}

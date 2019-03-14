@@ -132,25 +132,25 @@
   </div>
 </template>
 <script>
-import commonHeader from "@/components/common/commonHeader";
+import commonHeader from '@/components/common/commonHeader'
 export default {
-  name: "index",
+  name: 'index',
   components: {
     commonHeader: commonHeader
   },
   data() {
     return {
-      businessCodeImg: "", //业务端下载二维码
-      driverCodeImg: "", //司机端下载二维码
-      consumerCodeImg: "", //客户端下载二维码
+      businessCodeImg: '', // 业务端下载二维码
+      driverCodeImg: '', // 司机端下载二维码
+      consumerCodeImg: '', // 客户端下载二维码
       appUrl: {
-        businessAppUrl: "", //业务端下载链接
-        driverAppUrl: "", //司机端下载链接
-        consumerAppUrl: "" //客户端下载链接
+        businessAppUrl: '', // 业务端下载链接
+        driverAppUrl: '', // 司机端下载链接
+        consumerAppUrl: '' // 客户端下载链接
       },
-      user: this.pbFunc.getLocalData("users", true),
-      newYear: ""
-    };
+      user: this.pbFunc.getLocalData('users', true),
+      newYear: ''
+    }
   },
   computed: {},
   methods: {
@@ -159,42 +159,42 @@ export default {
       //   //this.$router.push({ path: '/dashboard/dispatchDashboard' });
       //   this.$emit('login');
       // } else {
-      this.$router.push({ path: "/nstitutionalRating/rating/ratingList" });
+      this.$router.push({ path: '/nstitutionalRating/rating/ratingList' })
       // }
     },
     getData() {
-      let myDate = new Date();
-      return myDate.getFullYear();
+      let myDate = new Date()
+      return myDate.getFullYear()
     }
   },
   created() {
-    let currentUrl = document.location.href.toString();
-    this.newYear = this.getData();
+    let currentUrl = document.location.href.toString()
+    this.newYear = this.getData()
 
     const getUrl = urlLink => {
-      this.businessCodeImg = `http://www.pgyer.com/app/qrcode/newBusiness${urlLink}`;
-      this.driverCodeImg = `http://www.pgyer.com/app/qrcode/newDriver${urlLink}`;
-      this.consumerCodeImg = `https://www.pgyer.com/app/qrcode/newConsumer${urlLink}`;
+      this.businessCodeImg = `http://www.pgyer.com/app/qrcode/newBusiness${urlLink}`
+      this.driverCodeImg = `http://www.pgyer.com/app/qrcode/newDriver${urlLink}`
+      this.consumerCodeImg = `https://www.pgyer.com/app/qrcode/newConsumer${urlLink}`
 
-      this.appUrl.consumerAppUrl = `https://www.pgyer.com/newConsumer${urlLink}`;
-      this.appUrl.businessAppUrl = `https://www.pgyer.com/newBusiness${urlLink}`;
-      this.appUrl.driverAppUrl = `https://www.pgyer.com/newDriver${urlLink}`;
-    };
-    if (currentUrl.match("ptms.hhtdlng.com")) {
-      getUrl("Temp");
-      this.driverCodeImg = `http://www.pgyer.com/app/qrcode/newDriverNewTemp`;
-      this.appUrl.driverAppUrl = `https://www.pgyer.com/newDriverNewTemp`;
-    } else if (currentUrl.match("ptms.91lng.cn")) {
-      getUrl("Prepare");
-    } else if (currentUrl.match("tms.hhtdlng.com")) {
-      getUrl("Test");
-    } else if (currentUrl.match("tms.91lng.cn")) {
-      getUrl("Pro");
+      this.appUrl.consumerAppUrl = `https://www.pgyer.com/newConsumer${urlLink}`
+      this.appUrl.businessAppUrl = `https://www.pgyer.com/newBusiness${urlLink}`
+      this.appUrl.driverAppUrl = `https://www.pgyer.com/newDriver${urlLink}`
+    }
+    if (currentUrl.match('ptms.hhtdlng.com')) {
+      getUrl('Temp')
+      this.driverCodeImg = `http://www.pgyer.com/app/qrcode/newDriverNewTemp`
+      this.appUrl.driverAppUrl = `https://www.pgyer.com/newDriverNewTemp`
+    } else if (currentUrl.match('ptms.91lng.cn')) {
+      getUrl('Prepare')
+    } else if (currentUrl.match('tms.hhtdlng.com')) {
+      getUrl('Test')
+    } else if (currentUrl.match('tms.91lng.cn')) {
+      getUrl('Pro')
     } else {
-      getUrl("Dev");
+      getUrl('Dev')
     }
   }
-};
+}
 </script>
 
 <style scoped lang="less">
@@ -214,7 +214,7 @@ a {
   .banner {
     width: 100%;
     height: 705px;
-    background: url("../assets/img/banner.png") no-repeat 50%;
+    background: url('../assets/img/banner.png') no-repeat 50%;
     .banner-content {
       width: 1200px;
       margin: 0 auto;
@@ -231,7 +231,7 @@ a {
           line-height: 64px;
           width: 562px;
           height: 64px;
-          background: url("../assets/img/Rectangle.png") no-repeat;
+          background: url('../assets/img/Rectangle.png') no-repeat;
           text-align: center;
           margin: 0 auto;
         }
@@ -284,7 +284,7 @@ a {
   .product {
     width: 100%;
     height: 670px;
-    background: url("../assets/img/product.png") no-repeat 50%;
+    background: url('../assets/img/product.png') no-repeat 50%;
     display: inline-block;
     .list-title {
       color: #fff;
@@ -325,7 +325,7 @@ a {
         color: #fff;
         height: 220px;
         &:after {
-          content: " ";
+          content: ' ';
           width: 100%;
           height: 220px;
           position: absolute;
@@ -348,13 +348,13 @@ a {
         }
       }
       .app-one {
-        background: url("../assets/img/app1.png") no-repeat 680px 30px;
+        background: url('../assets/img/app1.png') no-repeat 680px 30px;
       }
       .app-two {
-        background: url("../assets/img/app2.png") no-repeat 680px 30px;
+        background: url('../assets/img/app2.png') no-repeat 680px 30px;
       }
       .app-three {
-        background: url("../assets/img/app3.png") no-repeat 680px 30px;
+        background: url('../assets/img/app3.png') no-repeat 680px 30px;
       }
       .app-code {
         ul {
@@ -414,7 +414,7 @@ a {
       position: absolute;
       left: -15px;
       top: 14px;
-      content: " ";
+      content: ' ';
       display: block;
       height: 15px;
       width: 15px;
@@ -426,7 +426,7 @@ a {
       position: absolute;
       right: -15px;
       top: 14px;
-      content: " ";
+      content: ' ';
       display: block;
       height: 15px;
       width: 15px;

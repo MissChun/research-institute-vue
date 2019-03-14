@@ -89,7 +89,7 @@
 </template>
 <script>
 export default {
-  name: "threePartyCapacityList",
+  name: 'threePartyCapacityList',
   computed: {},
 
   data() {
@@ -97,63 +97,63 @@ export default {
       pageLoading: false,
       pageData: {
         currentPage: 1,
-        totalCount: "",
+        totalCount: '',
         pageSize: 10
       },
-      searchPostData: {}, //搜索参数
+      searchPostData: {}, // 搜索参数
       searchFilters: {
-        complete_status: "",
-        keyword: "",
-        field: "tractor_plate_number"
+        complete_status: '',
+        keyword: '',
+        field: 'tractor_plate_number'
       },
       selectData: {
         perfectSelect: [
-          { id: "", value: "全部" },
-          { id: false, value: "医院" },
-          { id: true, value: "医疗机构" }
+          { id: '', value: '全部' },
+          { id: false, value: '医院' },
+          { id: true, value: '医疗机构' }
         ],
         fieldSelect: [
-          { id: "tractor_plate_number", value: "机构名称" },
-          { id: "semitrailer_plate_number", value: "机构代码" }
+          { id: 'tractor_plate_number', value: '机构名称' },
+          { id: 'semitrailer_plate_number', value: '机构代码' }
         ]
       },
       thTableList: [
         {
-          title: "机构名称",
-          param: "tractor.plate_number",
-          width: ""
+          title: '机构名称',
+          param: 'tractor.plate_number',
+          width: ''
         },
         {
-          title: "机构代码",
-          param: "semitrailer.plate_number",
-          width: ""
+          title: '机构代码',
+          param: 'semitrailer.plate_number',
+          width: ''
         },
         {
-          title: "机构类型",
-          param: "tractor.carrier.name",
-          width: ""
+          title: '机构类型',
+          param: 'tractor.carrier.name',
+          width: ''
         },
         {
-          title: "评级分数",
-          param: "master_driver.name",
-          width: ""
+          title: '评级分数',
+          param: 'master_driver.name',
+          width: ''
         },
         {
-          title: "XX标签",
-          param: "master_driver.id_number",
-          width: ""
+          title: 'XX标签',
+          param: 'master_driver.id_number',
+          width: ''
         }
       ],
       tableData: []
-    };
+    }
   },
   methods: {
     goAddLink() {
-      window.open(`/#/nstitutionalRating/rating/ratingEdit`, "_blank");
+      window.open(`/#/nstitutionalRating/rating/ratingEdit`, '_blank')
     }
   },
   created() {}
-};
+}
 </script>
 <style>
 </style>

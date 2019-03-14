@@ -199,6 +199,7 @@
               </el-submenu>
             </template>
             <template v-else>
+              <!-- eslint-disable-next-line -->
               <el-menu-item :route="route" :index="route.name" class="menu-title dashborad-menu">
                 <template slot="title">
                   <div
@@ -244,51 +245,50 @@
   </div>
 </template>
 <script>
-import commonHeader from "@/components/common/commonHeader";
-import Lodash from "lodash";
+import commonHeader from '@/components/common/commonHeader'
 export default {
   data() {
     return {
-      user: { name: "aa" },
+      user: { name: 'aa' },
       menus: [],
       isCollapse: false,
       pcW: document.body.offsetWidth,
       minPcW: 1400
-    };
+    }
   },
   components: {
     commonHeader: commonHeader
   },
   computed: {
     activeMenu: function() {
-      return this.$route;
+      return this.$route
     },
     breadcrumbs: function() {
-      return (this.$route && this.$route.matched) || [];
+      return (this.$route && this.$route.matched) || []
     }
   },
   methods: {
     // const v=this
 
     dealChildren: function(children) {
-      let childrenMenu = [];
+      let childrenMenu = []
       for (let i in children) {
         if (children[i].meta && !children[i].meta.notRenderMenu) {
-          childrenMenu.push(children[i]);
+          childrenMenu.push(children[i])
         }
       }
-      return childrenMenu;
+      return childrenMenu
     },
     isChoosed: function(menu) {
-      return false;
+      return false
     },
     isCollapseW() {
-      let pcW = document.body.offsetWidth;
-      console.log("宽度", pcW);
+      let pcW = document.body.offsetWidth
+      console.log('宽度', pcW)
     },
     isShrink() {
-      this.isCollapse = !this.isCollapse;
-      this.pbFunc.setLocalData("isCollapse", this.isCollapse, true);
+      this.isCollapse = !this.isCollapse
+      this.pbFunc.setLocalData('isCollapse', this.isCollapse, true)
     }
   },
   mounted: function() {
@@ -300,12 +300,12 @@ export default {
     //   }, 400)
   },
   created: function() {
-    let menus = this.$store.state.common.menuData;
-    this.isCollapse = this.pbFunc.getLocalData("isCollapse", true);
+    let menus = this.$store.state.common.menuData
+    this.isCollapse = this.pbFunc.getLocalData('isCollapse', true)
     // this.isCollapse = this.pcW<this.minPcW?true:false;
     if (menus) {
-      this.menus = menus;
+      this.menus = menus
     }
   }
-};
+}
 </script>

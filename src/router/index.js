@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-Vue.use(Router);
+import Vue from 'vue'
+import Router from 'vue-router'
+Vue.use(Router)
 
 let baseRoute = [
   {
@@ -47,14 +47,14 @@ let baseRoute = [
     name: '图片预览',
     component: resolve => require(['../page/common/imgReview.vue'], resolve)
   }
-];
+]
 let router = new Router({
   routes: baseRoute
-});
+})
 router.beforeEach((to, from, next) => {
-  let routeName = to.meta.title || to.name;
-  window.document.title = routeName || '';
-  next();
-});
+  let routeName = to.meta.title || to.name
+  window.document.title = routeName || ''
+  next()
+})
 
-export default router;
+export default router

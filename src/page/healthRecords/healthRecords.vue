@@ -7,15 +7,9 @@
 export default {
   name: 'healthRecords',
   data() {
-    return {
-
-    }
+    return {}
   }
 }
-
 </script>
 <style>
-
-
 </style>
-

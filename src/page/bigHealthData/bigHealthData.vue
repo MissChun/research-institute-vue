@@ -5,12 +5,11 @@
 </template>
 <script>
 export default {
-  name: "bigHealthData",
+  name: 'bigHealthData',
   data() {
-    return {};
+    return {}
   }
-};
+}
 </script>
 <style>
 </style>
-
