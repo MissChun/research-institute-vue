@@ -1,38 +1,46 @@
 export default {
-    path: 'nstitutionalRating',
-    name: 'nstitutionalRating',
-    meta: { 
+  path: 'nstitutionalRating',
+  name: 'nstitutionalRating',
+  meta: {
+    isVerificationL: true,
+    title: '医疗机构评级',
+    iconName: 'icon-setting'
+  },
+  component: resolve =>
+    require(['../page/nstitutionalRating/nstitutionalRating'], resolve),
+  children: [
+    {
+      path: 'rating',
+      name: 'rating',
+      meta: {
         isVerificationL: true,
-        title: '医疗机构评级',
-        iconName: 'icon-setting'
-    },
-    redirect: '/nstitutionalRating/rating/ratingList',
-    component: (resolve) => require(['../page/nstitutionalRating/nstitutionalRating'], resolve),
-    children: [{
-        path: 'rating',
-        name: 'rating',
-        meta: { 
+        title: '医疗机构评级'
+      },
+      redirect: '/nstitutionalRating/rating/ratingList',
+      component: resolve =>
+        require(['../page/nstitutionalRating/rating/rating'], resolve),
+      children: [
+        {
+          path: 'ratingList',
+          name: 'ratingList',
+          meta: {
             isVerificationL: true,
-            title: '医疗机构评级',
+            title: '医疗机构评级列表'
+          },
+          component: resolve =>
+            require(['../page/nstitutionalRating/rating/ratingList'], resolve)
         },
-        redirect: '/nstitutionalRating/rating/ratingList',
-        component: (resolve) => require(['../page/nstitutionalRating/rating/rating'], resolve),
-        children: [{
-            path: 'ratingList',
-            name: 'ratingList',
-            meta: { 
-                isVerificationL: true,
-                title: '医疗机构评级列表',
-            },
-            component: (resolve) => require(['../page/nstitutionalRating/rating/ratingList'], resolve),
-        },{
-            path: 'ratingEdit',
-            name: 'ratingEdit',
-            meta: { 
-                isVerificationL: true,
-                title: '医疗机构评级编辑',
-            },
-            component: (resolve) => require(['../page/nstitutionalRating/rating/ratingEdit'], resolve),
-        }]
-    }]
-}
+        {
+          path: 'ratingEdit',
+          name: 'ratingEdit',
+          meta: {
+            isVerificationL: true,
+            title: '医疗机构评级编辑'
+          },
+          component: resolve =>
+            require(['../page/nstitutionalRating/rating/ratingEdit'], resolve)
+        }
+      ]
+    }
+  ]
+};

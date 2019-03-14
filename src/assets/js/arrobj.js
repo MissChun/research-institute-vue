@@ -9,7 +9,7 @@
  */
 export const isArray = function(data) {
   return Array.isArray(data);
-}
+};
 /**
  * @function inArray
  * @memberOf pbFunc
@@ -28,7 +28,7 @@ export const inArray = function(needle, arr) {
     }
   }
   return isFound;
-}
+};
 /**
  * @function inObjName
  * @memberOf pbFunc
@@ -51,7 +51,7 @@ export const inObjName = function(needle, name, obj) {
     }
   }
   return false;
-}
+};
 
 /**
  * @function objToArrStr
@@ -79,7 +79,7 @@ export const objToArrStr = function(obj, prop) {
     }
   }
   return arr.join(',');
-}
+};
 
 /**
  * @function objByKeyToArr
@@ -107,7 +107,7 @@ export const objByKeyToArr = function(obj, prop) {
     }
   }
   return arr;
-}
+};
 /**
  * @function arrToObj
  * @memberOf pbFunc
@@ -135,11 +135,11 @@ export const arrToObj = function(selectedArr, arr, keyName, cb) {
     objList[i] = {
       keyName: arr[i],
       id: i,
-      isSelected: (cb(arr, selectedArr, keyName, i)) ? true : false
-    }
+      isSelected: !!cb(arr, selectedArr, keyName, i)
+    };
   }
   return objList;
-}
+};
 /**
  * @function arrToObjWithKey
  * @memberOf pbFunc
@@ -177,11 +177,11 @@ export const arrToObjWithKey = function(selectedObj, arr, keyName, cb) {
     objList[xh] = {
       name: arr[i][keyName],
       id: xh,
-      isSelected: (cb(arr, selectedArr, keyName, i)) ? true : false
-    }
+      isSelected: !!cb(arr, selectedArr, keyName, i)
+    };
   }
   return objList;
-}
+};
 /**
  * @function objPushToArr
  * @memberOf pbFunc
@@ -226,7 +226,7 @@ export const objPushToArr = function(submitData, obj, field) {
     }
   }
   return selectedArr;
-}
+};
 /**
  * @function isEmptyObj
  * @memberOf pbFunc
@@ -248,7 +248,7 @@ export const isEmptyObj = function(listObj) {
     }
   }
   return len;
-}
+};
 
 /**
  * @function objSize
@@ -267,8 +267,8 @@ export const objSize = function(trg) {
   for (var t in trg) {
     i++;
   }
-  return i; //Object.keys(trg).length;
-}
+  return i; // Object.keys(trg).length;
+};
 /**
  * @function objPrint
  * @memberOf pbFunc
@@ -284,37 +284,43 @@ export const objPrint = function(obj, level, currentLevel, showLevel) {
    * 最大层级
    * @type {number}
    */
-  var _level = (typeof level === 'number' && level > 0 && level < 4) ? level : 3;
+  var _level = typeof level === 'number' && level > 0 && level < 4 ? level : 3;
   /**
    * 当前层级
    * @type {number}
    */
-  var _currentLevel = (typeof currentLevel === 'number' && currentLevel > 0 && currentLevel < 4) ? currentLevel : 0;
+  var _currentLevel =
+    typeof currentLevel === 'number' && currentLevel > 0 && currentLevel < 4
+      ? currentLevel
+      : 0;
   /**
    * 需要展示的层级
    * @type {number}
    */
-  var _showLevel = (typeof showLevel === 'number' && showLevel >= 0 && showLevel < 4) ? showLevel : _level;
+  var _showLevel =
+    typeof showLevel === 'number' && showLevel >= 0 && showLevel < 4
+      ? showLevel
+      : _level;
   /**
    * 需要展示的箭头
    * @type {string}
    */
-  var arrow = "";
+  var arrow = '';
   if (typeof obj !== 'object') {
-    //console.log("objPrint ", (obj || "").toString().replace(/[\n\r]/gi, ""));
+    // console.log("objPrint ", (obj || "").toString().replace(/[\n\r]/gi, ""));
     return false;
   }
   if (obj === null) {
-    //console.log("objPrint ", "null");
+    // console.log("objPrint ", "null");
     return false;
   }
   if (objSize(obj) === null) {
-    //console.log("objPrint ", "empty");
+    // console.log("objPrint ", "empty");
     return false;
   }
-  //console.log("objPrint init", _level, _currentLevel);
+  // console.log("objPrint init", _level, _currentLevel);
   if (_level === 0) {
-    //console.log("objPrint ", "[" + _level + ":" + _currentLevel + "]" + "[obj]=" + obj.toString().replace(/[\n\r]/gi, ""));
+    // console.log("objPrint ", "[" + _level + ":" + _currentLevel + "]" + "[obj]=" + obj.toString().replace(/[\n\r]/gi, ""));
     return false;
   }
   /**
@@ -333,24 +339,25 @@ export const objPrint = function(obj, level, currentLevel, showLevel) {
        * 清空箭头
        * @type {string}
        */
-      arrow = "";
+      arrow = '';
       for (i = 0; i < 3 - _level; i++) {
         /**
          * 展示箭头
          * @type {string}
          */
-        arrow += ">>>>>";
+        arrow += '>>>>>';
       }
       if (typeof obj[t] === 'object') {
-        //console.log("objPrint ", arrow + "[" + _level + ":" + _currentLevel + "]" + "[" + t + "]; ");
-        if (_currentLevel < _showLevel) objPrint(obj[t], _level - 1, _currentLevel + 1);
+        // console.log("objPrint ", arrow + "[" + _level + ":" + _currentLevel + "]" + "[" + t + "]; ");
+        if (_currentLevel < _showLevel) { objPrint(obj[t], _level - 1, _currentLevel + 1); }
       } else {
-        var temp = (obj && obj[t]) ? obj[t].toString().replace(/[\n\r]/gi, "") : '';
-        //console.warn("objPrint ", arrow + "[" + _level + ":" + _currentLevel + "]" + "[" + t + "]=" + temp + "; ");
+        var temp =
+          obj && obj[t] ? obj[t].toString().replace(/[\n\r]/gi, '') : '';
+        // console.warn("objPrint ", arrow + "[" + _level + ":" + _currentLevel + "]" + "[" + t + "]=" + temp + "; ");
       }
     }
   }
-}
+};
 /**
  * @function chkObjLen
  * @memberOf pbFunc
@@ -366,7 +373,7 @@ export const chkObjLen = function(obj, size) {
   } else {
     return false;
   }
-}
+};
 
 /**
  * @function getObjFromArrByKey
@@ -391,7 +398,7 @@ export const getObjFromArrByKey = function(arr, name, value) {
     }
   }
   return obj;
-}
+};
 
 /**
  * @function delObjKey
@@ -422,7 +429,7 @@ export const delObjKey = function(obj, key) {
     }
   }
   return newFileListObj;
-}
+};
 
 /**
  * @function arrFilter
@@ -445,26 +452,36 @@ export const delObjKey = function(obj, key) {
  *         actor_name: 'operator',
  *     });
  */
-export const arrFilter = function(arr, filterObj, returnedFields, defaultValues, returnedNameMap) {
+export const arrFilter = function(
+  arr,
+  filterObj,
+  returnedFields,
+  defaultValues,
+  returnedNameMap
+) {
   var newArr = [];
   var t;
-  var pushToNewArr = function(newArr, n, returnedFields, defaultValues, returnedNameMap) {
-    var newItem,
-      x;
+  var pushToNewArr = function(
+    newArr,
+    n,
+    returnedFields,
+    defaultValues,
+    returnedNameMap
+  ) {
+    var newItem, x;
     if (returnedFields) {
       newItem = {};
       for (x in n) {
         if (n.hasOwnProperty(x) && inArray(x, returnedFields)) {
           if (returnedNameMap && returnedNameMap.hasOwnProperty(x)) {
-            //如果需要映射到不同的属性名
+            // 如果需要映射到不同的属性名
             newItem[returnedNameMap[x]] = n[x];
           } else {
             newItem[x] = n[x];
           }
         }
       }
-      if (defaultValues)
-        newItem = angular.extend(newItem, defaultValues);
+      if (defaultValues) newItem = angular.extend(newItem, defaultValues);
     } else {
       if (defaultValues) {
         newItem = angular.extend(n, defaultValues);
@@ -474,23 +491,40 @@ export const arrFilter = function(arr, filterObj, returnedFields, defaultValues,
     }
     newArr.push(newItem);
   };
-  if (typeof arr === 'object' && arr.constructor === Array) arr.map(function(n, i) {
-
-    for (t in filterObj) {
-      if (filterObj.hasOwnProperty(t) && n.hasOwnProperty(t)) {
-        //满足filterObj中任何一个条件就返回
-        if (filterObj[t] instanceof RegExp && n[t] && n[t].toString().match(filterObj[t])) {
-          pushToNewArr(newArr, n, returnedFields, defaultValues, returnedNameMap);
-          break;
-        } else if (n[t] && n[t] === filterObj[t]) {
-          pushToNewArr(newArr, n, returnedFields, defaultValues, returnedNameMap);
-          break;
+  if (typeof arr === 'object' && arr.constructor === Array) {
+ arr.map(function(n, i) {
+      for (t in filterObj) {
+        if (filterObj.hasOwnProperty(t) && n.hasOwnProperty(t)) {
+          // 满足filterObj中任何一个条件就返回
+          if (
+            filterObj[t] instanceof RegExp &&
+            n[t] &&
+            n[t].toString().match(filterObj[t])
+          ) {
+            pushToNewArr(
+              newArr,
+              n,
+              returnedFields,
+              defaultValues,
+              returnedNameMap
+            );
+            break;
+          } else if (n[t] && n[t] === filterObj[t]) {
+            pushToNewArr(
+              newArr,
+              n,
+              returnedFields,
+              defaultValues,
+              returnedNameMap
+            );
+            break;
+          }
         }
       }
-    }
-  });
-  return newArr;
+    });
 }
+  return newArr;
+};
 
 /**
  * @function objValues
@@ -508,7 +542,7 @@ export const objValues = function(obj) {
     }
   }
   return values;
-}
+};
 /**
  * @function objKeys
  * @memberOf pbFunc
@@ -525,7 +559,7 @@ export const objKeys = function(obj) {
     }
   }
   return values;
-}
+};
 
 /**
  * @function deepcopy
@@ -541,7 +575,8 @@ export const deepcopy = function(source) {
   }
   let sourceCopy = source instanceof Array ? [] : {};
   for (let item in source) {
-    sourceCopy[item] = typeof source[item] === 'object' ? deepcopy(source[item]) : source[item];
+    sourceCopy[item] =
+      typeof source[item] === 'object' ? deepcopy(source[item]) : source[item];
   }
   return sourceCopy;
 };
@@ -554,7 +589,7 @@ export const fifterObjIsNull = function(Obj) {
       return false;
     }
     return true;
-  }
+  };
 
   for (var i in object) {
     var value = object[i];
@@ -563,7 +598,7 @@ export const fifterObjIsNull = function(Obj) {
         if (value.length == 0) {
           delete object[i];
           continue;
-        }else {
+        } else {
           for (let j = 0; j < value.length; j++) {
             if (value[j] && typeof value[j] === 'object') {
               value[j] = fifterObjIsNull(value[j]);
@@ -590,14 +625,13 @@ export const fifterbyArr = function(Obj, fifterArr, isNull) {
   if (isNull) {
     if (isNull == 'empty') {
       for (let i = 0; i < fifterArr.length; i++) {
-        newObj[fifterArr[i]] = object[fifterArr[i]] ? object[fifterArr[i]] : "";
+        newObj[fifterArr[i]] = object[fifterArr[i]] ? object[fifterArr[i]] : '';
       }
     } else {
       for (let i = 0; i < fifterArr.length; i++) {
         newObj[fifterArr[i]] = object[fifterArr[i]];
       }
     }
-
   } else {
     for (let i = 0; i < fifterArr.length; i++) {
       newObj[fifterArr[i]] = object[fifterArr[i]] ? object[fifterArr[i]] : null;
@@ -608,28 +642,42 @@ export const fifterbyArr = function(Obj, fifterArr, isNull) {
 
 export const dealNullData = function(data) {
   if (data === null || data === undefined || data === '') {
-    return '<span class="text-stance">无</span>'
+    return '<span class="text-stance">无</span>';
   } else {
-    return data
+    return data;
   }
 };
 export const format = function() {
-  Date.prototype.Format = function(fmt) { //author: meizz
+  Date.prototype.Format = function(fmt) {
+    // author: meizz
     var o = {
-      "M+": this.getMonth() + 1, //月份
-      "d+": this.getDate(), //日
-      "h+": this.getHours(), //小时
-      "m+": this.getMinutes(), //分
-      "s+": this.getSeconds(), //秒
-      "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-      "S": this.getMilliseconds() //毫秒
+      'M+': this.getMonth() + 1, // 月份
+      'd+': this.getDate(), // 日
+      'h+': this.getHours(), // 小时
+      'm+': this.getMinutes(), // 分
+      's+': this.getSeconds(), // 秒
+      'q+': Math.floor((this.getMonth() + 3) / 3), // 季度
+      S: this.getMilliseconds() // 毫秒
     };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-      if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-  }
+    if (/(y+)/.test(fmt)) {
+fmt = fmt.replace(
+        RegExp.$1,
+        (this.getFullYear() + '').substr(4 - RegExp.$1.length)
+      );
 }
+    for (var k in o) {
+ if (new RegExp('(' + k + ')').test(fmt)) {
+ fmt = fmt.replace(
+          RegExp.$1,
+          RegExp.$1.length == 1
+            ? o[k]
+            : ('00' + o[k]).substr(('' + o[k]).length)
+        );
+}
+}
+    return fmt;
+  };
+};
 /**
  * [tab 日期比较大小]
  * @param  {[type]} date1 [description]
@@ -642,6 +690,6 @@ export const compareDate = function(date1, date2) {
   if (oDate1.getTime() > oDate2.getTime()) {
     return false;
   } else {
-    return true
+    return true;
   }
-}
+};

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>大数据展示</div>
+    <h1 class="text-center big-data-title">全民健康大数据分析</h1>
     <div>
       <div id="echarts-map-container"></div>
       <div id="echarts-gender-container"></div>
@@ -49,7 +49,8 @@ export default {
   data() {
     return {
       mapChart: "",
-      detailChart: "",
+      genderChart: "",
+      AgeChart: "",
       provinceName: [
         "北京",
         "天津",
@@ -238,56 +239,61 @@ export default {
           lnglat: [106.31, 38.52]
         }
       ],
-      option: {
+      mapOption: {
         //backgroundColor: "#404a59",
-        title: {
-          text: "2016年各省市GDP及各产业占比",
-          left: "center",
-          textStyle: {
-            color: "black"
+        title: [
+          {
+            text: "2019年体检大数据地图",
+            left: "25%",
+            textStyle: {
+              color: "#333"
+            }
+          },
+          {
+            text: "2019年体检异常排行",
+            right: "15%",
+            textStyle: {
+              color: "#333"
+            }
           }
-        },
-        legend: {
-          data: ["第三产业", "第二产业", "第一产业"],
-          orient: "vertical",
-          top: "10%",
-          left: "left",
-          zlevel: 100
-        },
+        ],
         tooltip: {
           trigger: "item",
           formatter: function(params) {
+            //console.log("params", params);
             if (params.value) {
-              return params.name + "<br/>" + "GDP: " + params.value + "亿元";
+              return params.name + "：每百人异常数：" + params.value;
             }
           }
         },
         geo: {
-          map: "china",
-          roam: false,
-          aspectScale: 0.75,
-          left: "10%",
+          map: "china", //注册地图地区
+          roam: false, //是否可收缩
+          // aspectScale: 0.75,
+          // left: "10%",
+          layoutCenter: ["30%", "50%"], //地图中心
+          layoutSize: "110%", //地图大小
           label: {
+            normal: {
+              show: true,
+              color: "#fff"
+            },
             emphasis: {
-              show: false,
-              areaColor: "#eee"
+              show: true,
+              color: "#fff"
             }
           },
           // 地区块儿颜色
           itemStyle: {
             normal: {
-              areaColor: "#323c48",
-              borderColor: "#111"
+              areaColor: "#c2cae8",
+              borderColor: "#fff"
             },
             emphasis: {
-              areaColor: "#2a333d"
+              areaColor: "#9fa8da"
             }
           }
         },
-        series: []
-      },
-      detailOption: {
-        backgroundColor: "#404a59",
         series: []
       },
       diseaseRankData: [54, 65, 78, 99, 132, 143, 165, 170, 190, 200]
@@ -295,6 +301,7 @@ export default {
   },
   methods: {
     registerMap() {
+      //注册地图
       chinaMap(echarts);
       anhui(echarts);
       beijing(echarts);
@@ -330,156 +337,18 @@ export default {
       zhejiang(echarts);
     },
     initEchartsMap() {
-      //initOption
+      //初始化地图块echart
       this.registerMap();
       let dom = document.getElementById("echarts-map-container");
       this.mapChart = echarts.init(dom);
-      this.mapChart.setOption(this.option);
+      //this.mapChart.showLoading();
+      this.mapChart.setOption(this.mapOption);
     },
-    initEchartsDetail() {
-      this.registerMap();
-      let dom = document.getElementById("echarts-gender-container");
-      this.detailChart = echarts.init(dom);
-      let option = {
-        baseOption: {
-          timeline: {
-            axisType: "category",
-            autoPlay: true,
-            playInterval: 2000,
-            data: [
-              "2002-01-01",
-              "2003-01-01",
-              "2004-01-01",
-              "2005-01-01",
-              {
-                value: "2011-01-01",
-                tooltip: {
-                  formatter: function(params) {
-                    return params.name + "GDP达到又一个高度";
-                  }
-                },
-                symbol: "diamond",
-                symbolSize: 18
-              }
-            ],
-            label: {
-              formatter: function(s) {
-                return new Date(s).getFullYear();
-              }
-            }
-          },
-          title: {
-            subtext: "体检男女比例"
-          },
-          tooltip: {},
-          calculable: true,
-          series: [
-            {
-              name: "1",
-              type: "pie",
-              center: ["20%", "35%"],
-              radius: "50%",
-              z: 100
-            },
-            {
-              name: "2",
-              type: "pie",
-              center: ["40%", "35%"],
-              radius: "50%",
-              z: 100
-            },
-            {
-              name: "3",
-              type: "pie",
-              center: ["60%", "35%"],
-              radius: "50%",
-              z: 100
-            },
-            {
-              name: "4",
-              type: "pie",
-              center: ["80%", "35%"],
-              radius: "50%",
-              z: 100
-            }
-          ]
-        },
-        options: [
-          {
-            title: { text: "2002年男女比例" },
-            series: [
-              {
-                data: [{ name: "男", value: 50 }, { name: "女", value: 50 }]
-              },
-              {
-                data: [{ name: "男", value: 43 }, { name: "女", value: 57 }]
-              },
-              {
-                data: [{ name: "男", value: 29 }, { name: "女", value: 71 }]
-              },
-              {
-                data: [{ name: "男", value: 78 }, { name: "女", value: 22 }]
-              }
-            ]
-          },
-          {
-            title: { text: "2003年男女比例" },
-            series: [
-              {
-                data: [{ name: "男", value: 43 }, { name: "女", value: 57 }]
-              },
-              {
-                data: [{ name: "男", value: 30 }, { name: "女", value: 70 }]
-              },
-              {
-                data: [{ name: "男", value: 40 }, { name: "女", value: 60 }]
-              },
-              {
-                data: [{ name: "男", value: 38 }, { name: "女", value: 62 }]
-              }
-            ]
-          },
-          {
-            title: { text: "2004年男女比例" },
-            series: [
-              {
-                data: [{ name: "男", value: 60 }, { name: "女", value: 40 }]
-              },
-              {
-                data: [{ name: "男", value: 87 }, { name: "女", value: 13 }]
-              },
-              {
-                data: [{ name: "男", value: 45 }, { name: "女", value: 55 }]
-              },
-              {
-                data: [{ name: "男", value: 76 }, { name: "女", value: 24 }]
-              }
-            ]
-          },
-          {
-            title: { text: "2005年男女比例" },
-            series: [
-              {
-                data: [{ name: "男", value: 30 }, { name: "女", value: 70 }]
-              },
-              {
-                data: [{ name: "男", value: 43 }, { name: "女", value: 57 }]
-              },
-              {
-                data: [{ name: "男", value: 29 }, { name: "女", value: 71 }]
-              },
-              {
-                data: [{ name: "男", value: 70 }, { name: "女", value: 30 }]
-              }
-            ]
-          }
-        ]
-      };
-      this.detailChart.setOption(option);
-    },
+
     addMapBar(chart, data) {
+      //地图初始化后，在各个省添加柱状图
       var op = chart.getOption();
-      var sd = op.series;
+      //var sd = op.series;
 
       var grids = [];
       var xAxis = [];
@@ -494,7 +363,7 @@ export default {
             gridIndex: i,
             show: false,
             type: "category",
-            data: ["早", "中", "晚"],
+            data: ["脂肪肝", "颈椎病", "高血压"],
             z: 100
           });
           //生成y坐标系
@@ -505,12 +374,6 @@ export default {
             z: 100
           });
           var coord = chart.convertToPixel("geo", geoCoord);
-          var p = chart.convertToPixel(
-            {
-              seriesIndex: 0
-            },
-            geoCoord
-          );
           //生成网格
           grids.push({
             width: 30,
@@ -531,7 +394,7 @@ export default {
               normal: {
                 color: function(params) {
                   // 柱状图每根柱子颜色
-                  var colorList = ["#60acfc", "#5bc49f", "#feb64d"];
+                  var colorList = ["#8186d5", "#5e98e7", "#75d7fb"];
                   return colorList[params.dataIndex];
                 }
               },
@@ -552,9 +415,8 @@ export default {
       }
       return newOption;
     },
-    addDiseaseRankBar(chart) {
+    addDiseaseRankBar(chart, data) {
       let op = chart.getOption();
-      console.log("op.grids", op);
       let xAxis = [...op.xAxis];
       let yAxis = [...op.yAxis];
       let grids = [...op.grid];
@@ -600,8 +462,11 @@ export default {
         xAxisIndex: xAxisLength,
         yAxisIndex: yAxisLength,
         //barCategoryGap: 0,
-        data: this.diseaseRankData,
-        z: 100
+        data: data,
+        z: 100,
+        itemStyle: {
+          color: "#5e98e7"
+        }
       });
       let newOption = {
         grid: grids,
@@ -612,9 +477,160 @@ export default {
 
       return newOption;
     },
-    addAgeChart() {
+    initGenderEcharts(data) {
+      this.registerMap();
+      let dom = document.getElementById("echarts-gender-container");
+      this.genderChart = echarts.init(dom);
       let option = {
-        legend: {},
+        baseOption: {
+          timeline: {
+            axisType: "category",
+            autoPlay: true,
+            playInterval: 2500,
+            data: [
+              "2016-01-01",
+              "2017-01-01",
+              "2018-01-01",
+              {
+                value: "2019-01-01",
+                tooltip: {
+                  formatter: function(params) {
+                    return params.name + "GDP达到又一个高度";
+                  }
+                },
+                symbol: "diamond",
+                symbolSize: 18
+              }
+            ],
+            label: {
+              formatter: function(s) {
+                return new Date(s).getFullYear();
+              }
+            }
+          },
+          title: {
+            textAlign: "center",
+            left: "50%"
+          },
+          tooltip: {},
+          calculable: true,
+          series: [
+            {
+              name: "1",
+              type: "pie",
+              center: ["20%", "50%"],
+              radius: "50%",
+              z: 100
+            },
+            {
+              name: "2",
+              type: "pie",
+              center: ["40%", "50%"],
+              radius: "50%",
+              z: 100
+            },
+            {
+              name: "3",
+              type: "pie",
+              center: ["60%", "50%"],
+              radius: "50%",
+              z: 100
+            },
+            {
+              name: "4",
+              type: "pie",
+              center: ["80%", "50%"],
+              radius: "50%",
+              z: 100
+            }
+          ]
+        },
+        options: [
+          {
+            title: { text: "2016年体检男女比例" },
+            color: ["#5e98e7", "#8186d5"],
+            series: [
+              {
+                data: [{ name: "男", value: 50 }, { name: "女", value: 50 }]
+              },
+              {
+                data: [{ name: "男", value: 43 }, { name: "女", value: 57 }]
+              },
+              {
+                data: [{ name: "男", value: 29 }, { name: "女", value: 71 }]
+              },
+              {
+                data: [{ name: "男", value: 78 }, { name: "女", value: 22 }]
+              }
+            ]
+          },
+          {
+            title: { text: "2017年体检男女比例" },
+            color: ["#5e98e7", "#8186d5"],
+            series: [
+              {
+                data: [{ name: "男", value: 43 }, { name: "女", value: 57 }]
+              },
+              {
+                data: [{ name: "男", value: 30 }, { name: "女", value: 70 }]
+              },
+              {
+                data: [{ name: "男", value: 40 }, { name: "女", value: 60 }]
+              },
+              {
+                data: [{ name: "男", value: 38 }, { name: "女", value: 62 }]
+              }
+            ]
+          },
+          {
+            title: { text: "2018年体检男女比例" },
+            color: ["#5e98e7", "#8186d5"],
+            series: [
+              {
+                data: [{ name: "男", value: 60 }, { name: "女", value: 40 }]
+              },
+              {
+                data: [{ name: "男", value: 87 }, { name: "女", value: 13 }]
+              },
+              {
+                data: [{ name: "男", value: 45 }, { name: "女", value: 55 }]
+              },
+              {
+                data: [{ name: "男", value: 76 }, { name: "女", value: 24 }]
+              }
+            ]
+          },
+          {
+            title: { text: "2019年体检男女比例" },
+            color: ["#5e98e7", "#8186d5"],
+            series: [
+              {
+                data: [{ name: "男", value: 30 }, { name: "女", value: 70 }]
+              },
+              {
+                data: [{ name: "男", value: 43 }, { name: "女", value: 57 }]
+              },
+              {
+                data: [{ name: "男", value: 29 }, { name: "女", value: 71 }]
+              },
+              {
+                data: [{ name: "男", value: 70 }, { name: "女", value: 30 }]
+              }
+            ]
+          }
+        ]
+      };
+      this.genderChart.setOption(option);
+    },
+    initAgeChart() {
+      let option = {
+        title: { text: "年龄分布", textAlign: "center", left: "50%" },
+        color: ["#5e98e7", "#75d7fb", "#f69b7e", "#ffd97e"],
+        legend: {
+          right: "10%",
+          top: "10%",
+          orient: "vertical"
+        },
         tooltip: {
           trigger: "axis",
           showContent: false
@@ -622,10 +638,10 @@ export default {
         dataset: {
           source: [
             ["product", "2012", "2013", "2014", "2015", "2016", "2017"],
-            ["Matcha Latte", 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
-            ["Milk Tea", 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
-            ["Cheese Cocoa", 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
-            ["Walnut Brownie", 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
+            ["幼儿及青少年", 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+            ["青年", 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+            ["中年", 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
+            ["老年", 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
           ]
         },
         xAxis: { type: "category" },
@@ -640,7 +656,7 @@ export default {
             type: "pie",
             id: "pie",
             radius: "30%",
-            center: ["50%", "25%"],
+            center: ["50%", "30%"],
             label: {
               formatter: "{b}: {@2012} ({d}%)"
             },
@@ -683,10 +699,9 @@ export default {
         params.componentType === "geo" &&
         this.provinceName.includes(params.name)
       ) {
-        let newOption = Object.assign({}, this.option);
+        let newOption = Object.assign({}, this.mapOption);
         newOption.geo.map = mapName;
         this.mapChart.setOption(newOption, true);
-        console.log("this.mapChart", this.mapChart.getOption());
       }
     }
   },
@@ -702,29 +717,40 @@ export default {
     setTimeout(() => {
       let newOption = this.addMapBar(this.mapChart, this.data);
       this.mapChart.setOption(newOption);
-      let newOption1 = this.addDiseaseRankBar(this.mapChart);
+      let newOption1 = this.addDiseaseRankBar(
+        this.mapChart,
+        this.diseaseRankData
+      );
       console.log("newOption1", newOption1);
       this.mapChart.setOption(newOption1);
 
-      this.initEchartsDetail();
+      this.initGenderEcharts();
 
-      this.addAgeChart();
+      this.initAgeChart();
     }, 1000);
   }
 };
 </script>
 <style scoped>
+.big-data-title {
+  font-size: 26px;
+  color: #333;
+  line-height: 60px;
+  margin-bottom: 20px;
+}
 #echarts-map-container {
   width: 100%;
   height: 600px;
   /* background-color: #404a59; */
 }
 #echarts-gender-container {
+  margin-top: 60px;
   width: 100%;
   height: 300px;
   /* background-color: #404a59; */
 }
 #echarts-age-container {
+  margin-top: 70px;
   width: 100%;
   height: 600px;
   /* background-color: #404a59; */

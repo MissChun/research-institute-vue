@@ -9,18 +9,18 @@ import cost from './userStore/dataStore';
 Vue.use(Vuex);
 
 let common = {
-    state: commonState,
-    mutations: commonMutations,
-    actions:commonActions,
-    getters:commonGetters,
+  state: commonState,
+  mutations: commonMutations,
+  actions: commonActions,
+  getters: commonGetters
 };
-let modules={
-    common: common,
-    cost: cost
+let modules = {
+  common: common,
+  cost: cost
 };
 
 let store = new Vuex.Store({
-    modules: modules
+  modules: modules
 });
 
 export default store;

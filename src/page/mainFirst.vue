@@ -222,10 +222,12 @@
           @click="isShrink"
           :class="isCollapse?'min-side-width':'max-side-width'"
         >
-          <div v-if="isCollapse">展开
+          <div v-if="isCollapse">
+            展开
             <img src="../assets/img/open.svg">
           </div>
-          <div v-else>收起
+          <div v-else>
+            收起
             <img src="../assets/img/open.svg">
           </div>
         </div>

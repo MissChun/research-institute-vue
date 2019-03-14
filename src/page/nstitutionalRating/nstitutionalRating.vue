@@ -6,17 +6,12 @@
 </template>
 <script>
 export default {
-  name: 'nstitutionalRating',
+  name: "nstitutionalRating",
   data() {
-    return {
-
-    }
+    return {};
   }
-}
-
+};
 </script>
 <style>
-
-
 </style>
 
