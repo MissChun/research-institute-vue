@@ -8,15 +8,9 @@
 export default {
   name: 'nstitutionalRating',
   data() {
-    return {
-
-    }
+    return {}
   }
 }
-
 </script>
 <style>
-
-
 </style>
-

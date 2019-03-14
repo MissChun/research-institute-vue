@@ -12,12 +12,9 @@ const api = {
   getLandmarkOverview: {
     url: '/map/fluid_sites/overview/',
     method: 'GET',
-    desc: "获取所有省份的地标概览数据",
-    param: {
-
-    }
+    desc: '获取所有省份的地标概览数据',
+    param: {}
   }
 }
 
-
-export default api;
+export default api

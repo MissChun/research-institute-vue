@@ -1,16 +1,16 @@
 var factory = function(echarts) {
   var log = function(msg) {
     if (typeof console !== 'undefined') {
-      console && console.error && console.error(msg);
+      console && console.error && console.error(msg)
     }
-  };
+  }
   if (!echarts) {
-    log('ECharts is not Loaded');
-    return;
+    log('ECharts is not Loaded')
+    return
   }
   if (!echarts.registerMap) {
-    log('ECharts Map is not loaded');
-    return;
+    log('ECharts Map is not loaded')
+    return
   }
   echarts.registerMap('黑龙江', {
     type: 'FeatureCollection',
@@ -206,11 +206,11 @@ var factory = function(echarts) {
       }
     ],
     UTF8Encoding: true
-  });
-};
+  })
+}
 
 var heilongjiang = function(echarts) {
-  factory(echarts);
-};
+  factory(echarts)
+}
 
-export default heilongjiang;
+export default heilongjiang

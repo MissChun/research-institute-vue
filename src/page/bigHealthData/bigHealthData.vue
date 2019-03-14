@@ -7,15 +7,9 @@
 export default {
   name: 'bigHealthData',
   data() {
-    return {
-
-    }
+    return {}
   }
 }
-
 </script>
 <style>
-
-
 </style>
-

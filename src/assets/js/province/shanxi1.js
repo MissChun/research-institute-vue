@@ -1,16 +1,16 @@
 var factory = function(echarts) {
   var log = function(msg) {
     if (typeof console !== 'undefined') {
-      console && console.error && console.error(msg);
+      console && console.error && console.error(msg)
     }
-  };
+  }
   if (!echarts) {
-    log('ECharts is not Loaded');
-    return;
+    log('ECharts is not Loaded')
+    return
   }
   if (!echarts.registerMap) {
-    log('ECharts Map is not loaded');
-    return;
+    log('ECharts Map is not loaded')
+    return
   }
   echarts.registerMap('陕西', {
     type: 'FeatureCollection',
@@ -151,11 +151,11 @@ var factory = function(echarts) {
       }
     ],
     UTF8Encoding: true
-  });
-};
+  })
+}
 
 var shanxi1 = function(echarts) {
-  factory(echarts);
-};
+  factory(echarts)
+}
 
-export default shanxi1;
+export default shanxi1

@@ -8,15 +8,9 @@
 export default {
   name: 'rating',
   data() {
-    return {
-
-    }
+    return {}
   }
 }
-
 </script>
 <style>
-
-
 </style>
-
