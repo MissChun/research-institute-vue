@@ -1,5 +1,6 @@
 import bigHealthData from './bigHealthData'
 import nstitutionalRating from './nstitutionalRating'
+import healthRecords from './healthRecords'
 export default [{
   path: '',
   name: 'index',
@@ -10,6 +11,8 @@ export default [{
   },
   children: [
     bigHealthData,
-    nstitutionalRating
+    healthRecords,
+    nstitutionalRating,
+    
   ]
 }];
