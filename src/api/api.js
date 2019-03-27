@@ -9,11 +9,30 @@
  */
 
 const api = {
-  getLandmarkOverview: {
-    url: '/map/fluid_sites/overview/',
-    method: 'GET',
-    desc: '获取所有省份的地标概览数据',
-    param: {}
+  login: {
+    url: '/api/v1/auth',
+    method: 'post',
+    desc: '登录',
+    notNeedToken: true,
+    param: {
+
+    }
+  },
+  getHealthRecords: {
+    url: '/api/v1/health-records',
+    method: 'get',
+    desc: '获取健康档案列表',
+    param: {
+
+    }
+  },
+  getRatingList: {
+    url: '/api/v1/enterprise-rate',
+    method: 'get',
+    desc: '获取机构评级信息',
+    param: {
+
+    }
   }
 }
 

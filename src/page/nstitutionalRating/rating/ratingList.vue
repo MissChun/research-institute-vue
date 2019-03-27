@@ -150,6 +150,24 @@ export default {
   methods: {
     goAddLink() {
       window.open(`/#/nstitutionalRating/rating/ratingEdit`, '_blank')
+    },
+    getRatingList() {
+      this.pageLoading = true
+      let userInfo = this.pbFunc.getLocalData('userInfo', true)
+      let postData = {
+        enterprise: userInfo.enterprise._id
+      }
+      this.$$http('getRatingList')
+        .then(results => {
+          this.pageLoading = false
+          if (results.data && results.data.code == 0) {
+            this.tableData = results.data.content.instances
+            this.pageData.totalCount = results.data.content.count
+          }
+        })
+        .catch(err => {
+          this.pageLoading = false
+        })
     }
   },
   created() {}

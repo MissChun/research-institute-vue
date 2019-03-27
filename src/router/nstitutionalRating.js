@@ -35,7 +35,7 @@ export default {
           name: 'ratingEdit',
           meta: {
             isVerificationL: true,
-            title: '医疗机构评级编辑'
+            title: '医疗机构评级'
           },
           component: resolve =>
             require(['../page/nstitutionalRating/rating/ratingEdit'], resolve)

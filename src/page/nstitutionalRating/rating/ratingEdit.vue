@@ -1,4 +1,12 @@
 <style scoped lang="less">
+.brief-intro {
+  text-indent: 2rem;
+}
+.tags {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
 /deep/ .code {
   input {
     border-color: #dcdfe6 !important;
@@ -25,30 +33,24 @@
       <el-main v-show="!pageLoading" class="mt-30">
         <transition name="el-fade-in-linear">
           <div v-if="activeStep==0">
-            <div class="detail-form-title text-center">基础信息</div>
             <el-form
               class="addheaduserform detail-form"
               label-width="120px"
               ref="addFormSetpOne"
-              :rules="rules"
               :model="editMsgForm"
               status-icon
             >
               <el-row :gutter="40">
                 <el-col :span="22">
-                  <el-form-item label="机构简介:" prop="name">
-                    <el-input
-                      placeholder="请输入"
-                      type="textarea"
-                      :rows="4"
-                      v-model.trim="editMsgForm.name"
-                    ></el-input>
+                  <el-form-item label="机构简介:">
+                    <br>
+                    <div v-html="editMsgForm.name" class="brief-intro"></div>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row :gutter="40">
                 <el-col :span="22">
-                  <el-form-item label="评分维度1:" prop="name">
+                  <el-form-item label="服务满意度:" prop="name">
                     <el-row>
                       <el-col :span="2" class="text-center">{{dimension}}分</el-col>
                       <el-col :span="22">
@@ -60,36 +62,24 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="22">
-                  <el-form-item label="评分维度2:" prop="name">
+                  <el-form-item label="机构环境:" prop="name">
                     <el-row>
-                      <el-col :span="2" class="text-center">{{dimension}}分</el-col>
+                      <el-col :span="2" class="text-center">{{dimension1}}分</el-col>
                       <el-col :span="22">
                         <div class="block">
-                          <el-slider v-model="dimension" :max="10"></el-slider>
+                          <el-slider v-model="dimension1" :max="10"></el-slider>
                         </div>
                       </el-col>
                     </el-row>
                   </el-form-item>
                 </el-col>
                 <el-col :span="22">
-                  <el-form-item label="评分维度3:" prop="name">
+                  <el-form-item label="专业度:" prop="name">
                     <el-row>
-                      <el-col :span="2" class="text-center">{{dimension}}分</el-col>
+                      <el-col :span="2" class="text-center">{{dimension2}}分</el-col>
                       <el-col :span="22">
                         <div class="block">
-                          <el-slider v-model="dimension" :max="10"></el-slider>
-                        </div>
-                      </el-col>
-                    </el-row>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="22">
-                  <el-form-item label="评分维度4:" prop="name">
-                    <el-row>
-                      <el-col :span="2" class="text-center">{{dimension}}分</el-col>
-                      <el-col :span="22">
-                        <div class="block">
-                          <el-slider v-model="dimension" :max="10"></el-slider>
+                          <el-slider v-model="dimension2" :max="10"></el-slider>
                         </div>
                       </el-col>
                     </el-row>
@@ -97,28 +87,26 @@
                 </el-col>
               </el-row>
               <el-row :gutter="40">
-                <el-col :span="8">
+                <el-col :span="24">
                   <el-form-item label="标签:" prop="name">
-                    <el-select
-                      v-model="tag"
-                      multiple
-                      collapse-tags
-                      placeholder="请选择"
-                      @change="selectTags"
-                    >
-                      <el-option
-                        v-for="item in options"
-                        :key="item.id"
-                        :label="item.label"
-                        :value="item.id"
-                      ></el-option>
-                    </el-select>
+                    <el-tag
+                      v-for="(item,index) in tags"
+                      :key="item.name"
+                      @click="chooseTag(item,index)"
+                      class="tags"
+                    >{{item.name}}</el-tag>
                   </el-form-item>
                 </el-col>
-                <el-col :span="22">
+                <el-col :span="24">
                   <el-form-item label>
-                    {{tag}}
-                    <el-tag v-for="item in tags" :key="item.id" closable>{{item.label}}</el-tag>
+                    <el-tag
+                      type="success"
+                      closable
+                      v-for="(item,index) in choosedTags"
+                      :key="item.name"
+                      @close="closeTag(item,index)"
+                      class="tags"
+                    >{{item.name}}</el-tag>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -126,10 +114,10 @@
             <div class="detail-btn">
               <el-row>
                 <el-col :span="12" :offset="6" class="text-center">
-                  <!-- <el-button type="success" @click="editBasics(nextStepBtn,'next')" :loading="nextStepBtn.isLoading" :disabled="nextStepBtn.isDisabled">{{nextStepBtn.btnText}}</el-button> -->
+                  <el-button type="danger" @click="returnToPage()">取消</el-button>
                   <el-button
                     type="primary"
-                    @click="editBasics(saveBasicAndReviewBtn,'out')"
+                    @click="returnToPage()"
                     :loading="saveBasicAndReviewBtn.isLoading"
                     :disabled="saveBasicAndReviewBtn.isDisabled"
                   >{{saveBasicAndReviewBtn.btnText}}</el-button>
@@ -146,9 +134,6 @@
 export default {
   name: 'ratingEdit',
   computed: {
-    titleType: function() {
-      return this.$route.query.id ? '编辑医疗机构评级' : '新增医疗机构评级'
-    },
     activeStep: function() {
       return this.$route.query.activeStep || 0
     },
@@ -161,298 +146,57 @@ export default {
   },
   data() {
     return {
-      dimension: 0,
+      dimension: 5,
+      dimension1: 5,
+      dimension2: 5,
+      titleType: '机构评级',
       pageLoading: false,
-      // address: {
-      //   province: '',
-      //   city: '',
-      //   area: '',
-      // },
-      pickerOptions0: {
-        disabledDate(time) {
-          return time.getTime() > Date.now() - 8.64e6
-        }
-      },
-      addType: '默认新增',
-      selectCustomer: '',
-      tag: [],
-      tags: [],
-      options: [
+      choosedTags: [],
+      tags: [
         {
-          id: 1,
-          value: 'tag',
-          label: '标签1'
+          name: '服务好'
         },
         {
-          id: 2,
-          value: 'tag',
-          label: '标签2'
+          name: '环境好'
         },
         {
-          id: 3,
-          value: 'tag',
-          label: '标签3'
+          name: '专业'
         },
         {
-          id: 4,
-          value: 'tag',
-          label: '标签4'
+          name: '中国知名品牌'
         },
         {
-          id: 5,
-          value: 'tag',
-          label: '标签5'
+          name: '交通方便'
+        },
+        {
+          name: '价格透明'
         }
       ],
       editMsgForm: {
-        name: '',
-        contact_name: '',
-        contact_phone: '',
-        detail_address: '',
-        // area:'',
-        license_pic: [],
-        code: 'license_code',
-        codeMsg: ''
-      },
-      selectData: {
-        codeSelect: [
-          { id: 'license_code', value: '统一社会信用代码（三合一）' }
-          // { id: 'organization_code', value: '组织机构代码（非三合一）' },
-        ],
-        carrierTypeSelect: [
-          { id: 'own', value: '自有承运' },
-          { id: 'external', value: '外部承运' }
-        ]
-      },
-      rules: {
-        name: [
-          { required: true, message: '请输入客户名称', trigger: 'blur' },
-          { min: 1, max: 20, message: '客户名称为1~20个字符', trigger: 'blur' }
-        ],
-        contact_name: [
-          { required: true, message: '请输入联系人姓名', trigger: 'blur' },
-          { min: 2, max: 20, message: '联系人为2~10个字符', trigger: 'blur' }
-        ],
-        detail_address: [
-          { required: true, message: '请输入地址', trigger: 'blur' }
-        ],
-        contact_phone: [
-          { required: true, message: '请输入联系方式', trigger: 'blur' },
-          {
-            pattern: /(^(\(0\d{2,3}\)|0\d{2,3}-|\s)?\d{7,8}$)|(^1\d{10}$)/,
-            message: '请输入座机号或者手机号',
-            trigger: 'blur'
-          }
-        ],
-        codeMsg: [
-          {
-            required: true,
-            message: '请输入统一社会信用代码',
-            trigger: 'blur'
-          },
-          {
-            pattern: /^([A-Z0-9]{18})$/,
-            message: '由18位数字和大写字母组成',
-            trigger: 'blur'
-          }
-        ]
+        name:
+          '<p>圣度健康是“健康质量管理MRC模式”的提出者和领导者，是推动健康管理服务规范化和标准化建设的倡导者，也是健康管理基层落地的先行者和践行者，旗下的“南充市健康管理研究院”也是国内率先开展健康管理产、学、研理论和实践研究的专业研究机构之一。</p><p>公司致力于培育民众科学的健康观念，提升民众健康素养和生命质量；为企业团体健康提供整体解决方案和精准健康管理服务；为公立医院体检中心的转型和改造提供咨询合作方案和健康管理专业技术支持；利用成熟的网络技术和现代信息技术，搭建健康大数据平台，为健康管理群体提供交互式、个性化和专业性的健康改善方案。</p><p>2018年，圣度健康旗下子公司，四川崇慈圣度健康管理有限公司与国家卫计委直属机构国家卫生计生委科学技术研究所（健康质量发展研究中心）达成了合作协议，成为了“健康质量促进/健康质量管理”相关国家级项目落地的实施主体以及相关技术在四川及其他区域转化的基地。同时，双方达成在 “国家级全民健康维护体系云平台系统”中共建“健康质量促进/健康质量管理（健康质量管理MRC）软件系统”，联合实施全民健康大数据的采集、整合和加工工作。</p>'
       },
       saveBasicAndReviewBtn: {
         isLoading: false,
         btnText: '保存并退出',
         isDisabled: false
-      },
-      // nextStepBtn: {
-      //   isLoading: false,
-      //   btnText: '保存并下一步',
-      //   isDisabled: false,
-      // },
-      detail: {},
-      customerList: [],
-      isDisabled: false
+      }
     }
   },
-  created() {
-    if (this.id) {
-      this.getDetail()
-    }
-    // this.selectTags();
-  },
+  created() {},
   methods: {
     returnToPage: function() {
-      if (this.$route.query.id) {
-        this.$router.push({
-          path: `/basicDataManage/supplierManage/carrierManage/carrierDetail/${
-            this.$route.query.id
-          }/`
-        })
-      } else {
-        this.$router.push({
-          path:
-            '/basicDataManage/supplierManage/carrierManage/carrierManagelist'
-        })
-      }
-    },
-    selectTags() {
-      this.tags = []
-      this.options.forEach(item => {
-        this.tag.forEach(tagItem => {
-          if (item.id === tagItem) {
-            this.tags.push(item)
-          }
-        })
+      this.$router.push({
+        path: `/nstitutionalRating/rating/ratingList`
       })
     },
-    handleRemove(file, fileList) {},
-    handlePreview(file) {},
-    relation(id, msg) {
-      this.$confirm(msg, '创建关联', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          this.$$http('establishCarrierRelation', { carrier: id })
-            .then(results => {
-              if (results.data && results.data.code === 0) {
-                this.$message({
-                  message: '创建关联成功',
-                  type: 'success'
-                })
-                this.$router.push({
-                  path:
-                    '/basicDataManage/supplierManage/carrierManage/carrierManagelist'
-                })
-              }
-            })
-            .catch(err => {
-              console.log('err', err)
-              this.$message.error('创建关联失败')
-            })
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消创建关联'
-          })
-          this.$router.push({
-            path:
-              '/basicDataManage/supplierManage/carrierManage/carrierManagelist'
-          })
-        })
+    chooseTag(item, index) {
+      this.choosedTags.push(item)
+      this.tags.splice(index, 1)
     },
-    getDetail: function() {
-      this.$$http('getCarrierDetail', { carrier_id: this.id }).then(results => {
-        if (results.data && results.data.code === 0) {
-          this.detail = results.data.data
-
-          this.editMsgForm = {
-            name: this.detail.name,
-            contact_name: this.detail.contact_name,
-            contact_phone: this.detail.contact_phone,
-            detail_address: this.detail.detail_address,
-            license_pic: [],
-            // area:this.detail.area,
-            code: this.detail.license_code
-              ? 'license_code'
-              : 'organization_code',
-            codeMsg: this.detail.license_code
-              ? this.detail.license_code
-              : this.detail.organization_code
-          }
-          if (this.editMsgForm.codeMsg) {
-            this.isDisabled = true
-          }
-          if (this.editMsgForm.code === 'license_code') {
-            this.rules.codeMsg = this.sociology
-          } else {
-            this.rules.codeMsg = this.structure
-          }
-        }
-      })
-    },
-    editAjax(postData, formName, btnObject, stepNum, isReview) {
-      let btnTextCopy = this.pbFunc.deepcopy(btnObject).btnText
-      let apiName = 'addCarrierMsg'
-      // postData.company = 'cacf2c4d-9290-4f88-bfa0-be842df32e3b';
-      btnObject.isDisabled = true
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          /* 如果id存在则为编辑 */
-          if (this.id) {
-            postData.id = this.id
-            apiName = 'updateCarrier'
-          }
-
-          btnObject.btnText = '正在提交'
-          btnObject.isLoading = true
-
-          // postData = this.pbFunc.fifterObjIsNull(postData);
-          this.$$http(apiName, postData)
-            .then(results => {
-              btnObject.btnText = btnTextCopy
-              btnObject.isLoading = false
-              btnObject.isDisabled = false
-
-              if (
-                results.data &&
-                results.data.code === 0 &&
-                results.data.data
-              ) {
-                this.$message({
-                  message: '提交成功',
-                  type: 'success'
-                })
-                // if (isReview) {
-                if (this.id) {
-                  this.$router.push({
-                    path: `/basicDataManage/supplierManage/carrierManage/carrierDetail/${
-                      this.id
-                    }/`
-                  })
-                } else {
-                  this.$router.push({
-                    path:
-                      '/basicDataManage/supplierManage/carrierManage/carrierManagelist'
-                  })
-                }
-
-                // } else {
-                //   let id = results.data.data.id;
-                //   this.$router.push({ path: "/basicDataManage/carrierManage/editCarrier", query: { activeStep: stepNum - 1, id: id } });
-                // }
-              }
-            })
-            .catch(err => {
-              console.log('err', err)
-              btnObject.btnText = btnTextCopy
-              btnObject.isLoading = false
-              btnObject.isDisabled = false
-            })
-        } else {
-          btnObject.isDisabled = false
-        }
-      })
-    },
-    editBasics(btn, btnType) {
-      let formName = 'addFormSetpOne'
-      let btnObject = btn
-
-      let keyArray = ['name', 'contact_name', 'contact_phone', 'detail_address']
-      if (this.editMsgForm.code === 'license_code') {
-        this.editMsgForm.license_code = this.editMsgForm.codeMsg
-        keyArray.push('license_code')
-      } else if (this.editMsgForm.code === 'organization_code') {
-        this.editMsgForm.organization_code = this.editMsgForm.codeMsg
-        keyArray.push('organization_code')
-      }
-      let postData = this.pbFunc.fifterbyArr(this.editMsgForm, keyArray)
-      // postData.area = this.address.area;
-      if (btnType === 'next') {
-        this.editAjax(postData, formName, btnObject, 2)
-      } else if (btnType === 'out') {
-        this.editAjax(postData, formName, btnObject, null, true)
-      }
+    closeTag(item, index) {
+      this.tags.push(item)
+      this.choosedTags.splice(index, 1)
     }
   }
 }

@@ -277,7 +277,6 @@
   <!-- </div> -->
 </template>
 <script>
-import { getDomainUrl } from '@/api/index'
 export default {
   name: 'loginAfterheader',
   props: {
@@ -306,50 +305,9 @@ export default {
     }
   },
   created() {
-    // this.wsLink();
     // this.getUnreadNewNum();
   },
   methods: {
-    wsLink() {
-      let vm = this
-      let domainUrl = getDomainUrl()
-      //, ['c55f02c5-81e2-433c-84a0-e974d0642bab'],{'Authorization':''}
-      this.$store.state.common.wsMsg = new WebSocket(
-        'ws://' + domainUrl + '/ws/web/notifications/' + this.users.id + '/'
-      )
-      let ws = this.$store.state.common.wsMsg
-      ws.onopen = function(event) {
-        console.log('链接消息', event)
-      }
-      ws.onmessage = event => {
-        console.log('接收的消息', event.data)
-        let msg = JSON.parse(event.data)
-        vm.$store.commit('ChangeMsgNum', {
-          num: 1
-        })
-        vm.$notify({
-          // title: msg.message_type.verbose,
-          message: msg.content,
-          position: 'bottom-right'
-        })
-      }
-      ws.onerror = function(event) {
-        setTimeout(() => {
-          this.wsNumError--
-          if (this.wsNumError > 0) {
-            vm.wsLink()
-          }
-        }, 60000)
-      }
-      ws.onclose = event => {
-        setTimeout(() => {
-          this.wsNumClose--
-          if (this.wsNumClose > 0) {
-            vm.wsLink()
-          }
-        }, 60000)
-      }
-    },
     // 未读消息
     getUnreadNewNum() {
       this.$$http('getUnreadNewNum', {}).then(results => {

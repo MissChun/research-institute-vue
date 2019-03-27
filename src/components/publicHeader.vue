@@ -33,49 +33,8 @@ export default {
   data: function() {
     return {}
   },
-  computed: {
-    // users: function() {
-    //   console.log('users', this.$store.state.common.users);
-    //   return this.$store.state.common.users;
-    // }
-  },
-  methods: {
-    // logout: function() {
-    //   this.$confirm("确定退出?", "提示", {
-    //       confirmButtonText: "确定",
-    //       cancelButtonText: "取消",
-    //       type: "warning"
-    //     })
-    //     .then(() => {
-    //       this.signOut();
-    //       this.$emit("logout");
-    //     })
-    //     .catch(() => {});
-    // },
-    // signOut: function() {
-    //   this.$$http('signOut', {}).then((results) => {
-    //     if (results.data && results.data.code == 0) {
-    //       this.$message({
-    //         message: '退出成功',
-    //         type: 'success'
-    //       });
-    //       localStorage.clear();
-    //       this.$store.state.common.users = {};
-    //       this.$router.push({ path: '/login' });
-    //     }
-    //   }).catch((err) => {
-    //     this.$message.error('退出失败');
-    //   })
-    //   this.$$http('signOut');
-    //   this.$message({
-    //     message: '退出成功',
-    //     type: 'success'
-    //   });
-    //   localStorage.clear();
-    //   this.$store.state.common.users = {};
-    //   this.$router.push({ path: '/login' });
-    // }
-  }
+  computed: {},
+  methods: {}
 }
 </script>
 <style scoped>

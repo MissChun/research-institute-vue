@@ -132,37 +132,32 @@ export default {
       thTableList: [
         {
           title: '姓名',
-          param: 'tractor.plate_number',
+          param: 'profile.nick_name',
           width: ''
         },
         {
           title: '性别',
-          param: 'semitrailer.plate_number',
+          param: 'profile.gender',
           width: ''
         },
         {
           title: '年龄',
-          param: 'tractor.carrier.name',
+          param: 'profile.age',
           width: ''
         },
         {
           title: '身份证号',
-          param: 'master_driver.name',
+          param: 'profile.identity_card',
           width: ''
         },
         {
           title: '电话',
-          param: 'master_driver.id_number',
+          param: 'profile.mobile_number',
           width: ''
         },
         {
           title: '疾病史',
-          param: 'master_driver.id_number',
-          width: ''
-        },
-        {
-          title: '签约属性',
-          param: 'master_driver.id_number',
+          param: 'profile.id_number',
           width: ''
         }
       ],
@@ -172,9 +167,25 @@ export default {
   methods: {
     goAddLink() {
       window.open(`/#/nstitutionalRating/rating/ratingEdit`, '_blank')
+    },
+    getHealthRecords() {
+      this.pageLoading = true
+      this.$$http('getHealthRecords')
+        .then(results => {
+          this.pageLoading = false
+          if (results.data && results.data.code == 0) {
+            this.tableData = results.data.content.instances
+            this.pageData.totalCount = results.data.content.count
+          }
+        })
+        .catch(err => {
+          this.pageLoading = false
+        })
     }
   },
-  created() {}
+  created() {
+    this.getHealthRecords()
+  }
 }
 </script>
 <style>

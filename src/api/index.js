@@ -14,57 +14,18 @@ import router from '../router'
 /* 接口超时时长设置 */
 let timeout = 60000
 
-/* 配置访问url */
-let domainUrl = ''
-export const getDomainUrl = function(prefix = '') {
-  // 掐指一算五个环境
-  let currentUrl = document.location.href.toString()
-  let domainUrl = ''
-
-  if (currentUrl.match('ptms.hhtdlng.com')) {
-    // 演示环境
-    domainUrl = `${prefix}ptms.hhtdlng.com`
-  } else if (currentUrl.match('ptms.91lng.cn')) {
-    // 预发环境
-    domainUrl = `${prefix}ptms.91lng.cn`
-  } else if (
-    currentUrl.match(`tms.hhtdlng.com`) &&
-    !currentUrl.match(`devtms.hhtdlng.com`) &&
-    !currentUrl.match(`vtms.hhtdlng.com`)
-  ) {
-    // 测试环境
-    domainUrl = `${prefix}api.hhtdlng.com/tms`
-  } else if (
-    currentUrl.match(`tms.91lng.cn`) &&
-    !currentUrl.match(`ptms.91lng.cn`) &&
-    !currentUrl.match(`testtms.91lng.cn`)
-  ) {
-    // 正式环境
-    domainUrl = `${prefix}api.91lng.com/tms`
-  } else if (currentUrl.match(`devtms.hhtdlng.com`)) {
-    // 开发环境
-    domainUrl = `${prefix}devtms.hhtdlng.com`
-  } else if (currentUrl.match(`testtms.91lng.cn`)) {
-    // 开发环境
-    domainUrl = `${prefix}testtms.91lng.cn`
-  } else if (currentUrl.match(`vtms.hhtdlng.com`)) {
-    // 开发环境
-    domainUrl = `${prefix}api.hhtdlng.com/tms`
-  } else {
-    domainUrl = `${prefix}ptms.91lng.cn` // 本地开发环境
-  }
-  return domainUrl
-}
-
-domainUrl = getDomainUrl('http://')
+let isProduction = true
+/*
+- 开发环境： http://dapi.shengdujk.com
+- 测试环境：http://tapi.shengdujk.com
+- 正式环境：http://api.shengdujk.com
+*/
+let domainUrl = isProduction
+  ? 'http://api.shengdujk.com'
+  : 'http://dapi.shengdujk.com'
 
 let pending = [] // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
-let unCancelAjax = [
-  'getTripRecords',
-  'getOfflineAndStopRecords',
-  'signOut',
-  'getTransPowerInfoList'
-] // 设定可以重复请求的ajax请求的apiname(str)。
+let unCancelAjax = [] // 设定可以重复请求的ajax请求的apiname(str)。
 let cancelToken = axios.CancelToken
 // let cancelLimitTime = 500 // 设置需要cancel的间隔时限
 
@@ -78,7 +39,7 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-let removePending = (config, isCancel) => {}
+let removePending = (config, isCancel) => { }
 
 // 添加请求拦截器
 axios.interceptors.request.use(
@@ -125,7 +86,7 @@ axios.interceptors.response.use(
 )
 
 /* 统一处理网络问题或者代码问题造成的错误 */
-const errorState = function(error) {
+const errorState = function (error) {
   let errorMsg = ''
   if (error && error.response) {
     switch (error.response.status) {
@@ -178,20 +139,23 @@ const errorState = function(error) {
     Message.error(errorMsg)
   }
   if (error && error.response && error.response.status === 401) {
-    router.push({ path: '/login' })
+    router.push({
+      path: '/login'
+    })
   }
 }
 
 /* 根据后端接口文档统一处理错误信息 */
-const successState = function(response) {
+const successState = function (response) {
   if (response.data && response.data.code) {
     if (response.data.code === 401) {
       Message.error('登录过期，请重新登录')
-      router.push({ path: '/login' })
+      router.push({
+        path: '/login'
+      })
     } else if (response.data.code === 403) {
       Message.error('无操作权限')
-    } else if (response.data.code === 0) {
-    } else {
+    } else if (response.data.code === 0) { } else {
       if (response.data.msg) {
         Message.error(response.data.msg)
       }
@@ -200,7 +164,7 @@ const successState = function(response) {
 }
 
 /* 处理url */
-const dealApiUrlParam = function(apiName, postData) {
+const dealApiUrlParam = function (apiName, postData) {
   let httpUrl = api[apiName].url
 
   if (httpUrl) {
@@ -222,7 +186,7 @@ const dealApiUrlParam = function(apiName, postData) {
 }
 
 /* 处理http请求config */
-const dealConfig = function(apiName, postData) {
+const dealConfig = function (apiName, postData) {
   const httpConfig = {
     method: '',
     baseURL: domainUrl,
@@ -241,16 +205,14 @@ const dealConfig = function(apiName, postData) {
   httpConfig.method = method
 
   httpConfig.headers =
-    method === 'get'
-      ? {
-        'X-Requested-With': 'XMLHttpRequest',
-        Accept: 'application/json',
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-      : {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
+    method === 'get' ? {
+      'X-Requested-With': 'XMLHttpRequest',
+      Accept: 'application/json',
+      'Content-Type': 'application/json; charset=UTF-8'
+    } : {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
 
   if (!api[apiName].notNeedToken) {
     httpConfig.headers.Authorization = token
@@ -302,7 +264,7 @@ export const httpServer = (
 
   let httpConfig = dealConfig(apiName, postData)
 
-  let promise = new Promise(function(resolve, reject) {
+  let promise = new Promise(function (resolve, reject) {
     axios(httpConfig)
       .then(res => {
         // 默认使用successState

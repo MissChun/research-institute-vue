@@ -108,10 +108,6 @@ export default {
     },
     pathIn: function(isGoFirstPath) {
       let allowedRouter = []
-      // let menuList = this.pbFunc.getLocalData('menuList', true)
-      // let menuDictionaryObject = this.findDictionary(menuList);
-      // let token = this.pbFunc.getLocalData('token', true);
-      // allowedRouter = this.getRoutesList(menuDictionaryObject);
       allowedRouter = userPath
       console.log('菜单', allowedRouter)
       this.extendRoutes(allowedRouter)
@@ -157,34 +153,10 @@ export default {
     },
     logoutDirect: function() {
       localStorage.clear()
-      // 清除session
-      // this.pbFunc.setLocalData('token', '');
-      // 清除菜单
-      // this.pbFunc.setLocalData('menuList', '');
-      // 回到登录页
-      // this.$router.replace({ path: '/login' });
     }
   },
   created: function(newPath) {
     let vm = this
-    // let users = vm.pbFunc.getLocalData('users', true);
-    // let token = vm.pbFunc.getLocalData('token', true);
-    // if (!users && token) {
-    //   this.$$http('getUser', {}).then((results) => {
-    //     if (results.data && results.data.code === 0) {
-    //       this.$store.state.common.users = results.data.data;
-    //       vm.pbFunc.setLocalData('users', results.data.data, true);
-    //     }
-    //   }).catch((err) => {
-    //     this.$message.error('获取用户信息失败');
-    //   })
-    // } else {
-    //   this.$store.state.common.users = vm.pbFunc.getLocalData('users', true);
-    // }
-    // this.$$http("getSelectData", {}).then(function(reslut) {
-    //   if (reslut.data.code == 0)
-    //     vm.$store.state.common.selectData = reslut.data.data;
-    // });
     vm.pathIn()
   }
 }
