@@ -4,7 +4,8 @@
       <el-col :span="12">
         <router-link :to="{path: '/'}">
           <div title="运输管理系统" class="logo">
-            <img class="log-img" src="../assets/img/91LNG.svg">
+            <img class="log-img" src="../assets/img/logo.ico">
+            <span>.人群健康数据平台</span>
           </div>
         </router-link>
       </el-col>
@@ -37,7 +38,7 @@ export default {
   methods: {}
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .el-header {
   height: 65px !important;
   background: #fff;
@@ -55,11 +56,21 @@ export default {
   top: 6px;
 }
 
-.el-header img {
-  margin-top: 12px;
-}
-
 .text-right {
   text-align: right;
+}
+.log-img {
+  width: 50px;
+  vertical-align: middle;
+  margin-left: 3px;
+}
+.logo {
+  width: 229px;
+  height: 59px;
+
+  span {
+    color: #4a9bf8;
+    font-size: 14px;
+  }
 }
 </style>

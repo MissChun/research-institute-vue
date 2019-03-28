@@ -5,7 +5,7 @@ export default {
   meta: {
     isVerificationL: true,
     title: '健康大数据',
-    iconName: 'icon-setting'
+    iconName: 'icon-data'
   },
   component: resolve =>
     require(['../page/bigHealthData/bigHealthData'], resolve),

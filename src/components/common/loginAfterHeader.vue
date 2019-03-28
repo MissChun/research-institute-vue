@@ -39,12 +39,7 @@
   border-top: none;
   border-left: 0;
 }
-.max-logo {
-  width: 229px;
-}
-.min-logo {
-  width: 63px;
-}
+
 .nav {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -91,11 +86,27 @@
 .el-header {
   background: white;
 }
-
-.log-img {
-  line-height: 55px;
-  vertical-align: middle;
-  margin-top: -2px;
+.max-logo {
+  width: 229px;
+  height: 59px;
+  .log-img {
+    width: 50px;
+    vertical-align: middle;
+    margin-left: 3px;
+  }
+  span {
+    color: #4a9bf8;
+    font-size: 14px;
+  }
+}
+.min-logo {
+  width: 63px;
+  height: 59px;
+  .log-img {
+    width: 50px;
+    vertical-align: middle;
+    margin-left: 3px;
+  }
 }
 
 .color-4a9bf8 {
@@ -192,8 +203,9 @@
     <el-row type="flex" class="g-head">
       <router-link :to="{path: '/'}">
         <div href title="运输管理系统" class="logo" :class="isCollapse?'min-logo':'max-logo'">
-          <img class="log-img" v-if="isCollapse" src="../../assets/img/91LNG_min.svg">
-          <img class="log-img" v-else src="../../assets/img/91LNG.svg">
+          <img class="log-img" v-if="isCollapse" src="../../assets/img/logo.ico">
+          <img class="log-img" v-else src="../../assets/img/logo.ico">
+          <span>.人群健康数据平台</span>
         </div>
       </router-link>
       <div class="nav">

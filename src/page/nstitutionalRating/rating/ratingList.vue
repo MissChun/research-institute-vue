@@ -25,9 +25,9 @@
           <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item label="机构类型:">
-                <el-select v-model="searchFilters.complete_status" placeholder="请选择">
+                <el-select v-model="searchFilters.enterprise_type" placeholder="请选择">
                   <el-option
-                    v-for="(item,key) in selectData.perfectSelect"
+                    v-for="(item,key) in selectData.enterpriseType"
                     :key="key"
                     :label="item.value"
                     :value="item.id"
@@ -60,9 +60,9 @@
             :label="item.title"
             :width="item.width"
           ></el-table-column>
-          <el-table-column label="完善状态" align="center" width="140">
+          <el-table-column label="标签" align="center" width="140">
             <template slot-scope="scope">
-              <div>{{scope.row.complete_status?'已完善':'未完善'}}</div>
+              <div>专业、服务好</div>
             </template>
           </el-table-column>
           <el-table-column label="操作" align="center" width="150" fixed="right">
@@ -91,7 +91,6 @@
 export default {
   name: 'threePartyCapacityList',
   computed: {},
-
   data() {
     return {
       pageLoading: false,
@@ -102,45 +101,42 @@ export default {
       },
       searchPostData: {}, // 搜索参数
       searchFilters: {
-        complete_status: '',
+        enterprise_type: '',
         keyword: '',
-        field: 'tractor_plate_number'
+        field: 'enterprise_name'
       },
       selectData: {
-        perfectSelect: [
+        enterpriseType: [
           { id: '', value: '全部' },
-          { id: false, value: '医院' },
-          { id: true, value: '医疗机构' }
+          { id: 'government', value: '政府机构' },
+          { id: 'hospital', value: '医院' },
+          { id: 'health-management-company', value: '健康管理公司' },
+          { id: 'third-company', value: '三方健康管理公司' }
         ],
         fieldSelect: [
-          { id: 'tractor_plate_number', value: '机构名称' },
-          { id: 'semitrailer_plate_number', value: '机构代码' }
+          { id: 'enterprise_name', value: '机构名称' },
+          { id: 'credit_code', value: '机构代码' }
         ]
       },
       thTableList: [
         {
           title: '机构名称',
-          param: 'tractor.plate_number',
+          param: 'enterprise.enterprise_name',
           width: ''
         },
         {
           title: '机构代码',
-          param: 'semitrailer.plate_number',
+          param: 'enterprise.credit_code',
           width: ''
         },
         {
           title: '机构类型',
-          param: 'tractor.carrier.name',
+          param: 'enterprise_type',
           width: ''
         },
         {
           title: '评级分数',
-          param: 'master_driver.name',
-          width: ''
-        },
-        {
-          title: 'XX标签',
-          param: 'master_driver.id_number',
+          param: 'score',
           width: ''
         }
       ],
@@ -151,13 +147,9 @@ export default {
     goAddLink() {
       window.open(`/#/nstitutionalRating/rating/ratingEdit`, '_blank')
     },
-    getRatingList() {
+    getRatingList(postData) {
       this.pageLoading = true
-      let userInfo = this.pbFunc.getLocalData('userInfo', true)
-      let postData = {
-        enterprise: userInfo.enterprise._id
-      }
-      this.$$http('getRatingList')
+      this.$$http('getRatingList', postData)
         .then(results => {
           this.pageLoading = false
           if (results.data && results.data.code == 0) {
@@ -168,9 +160,32 @@ export default {
         .catch(err => {
           this.pageLoading = false
         })
+    },
+    startSearch() {
+      this.pageData.currentPage = 1
+      let postData = {
+        page: this.pageData.currentPage,
+        page_size: this.pageData.pageSize,
+        enterprise_type: this.searchFilters.enterprise_type,
+        search_type: this.searchFilters.field,
+        search: this.searchFilters.keyword
+      }
+      this.postDataCopy = Object.assign({}, postData)
+      this.getRatingList(postData)
+    },
+    pageChange(page) {
+      console.log('page', page)
+      this.postDataCopy.page = page
+      this.getRatingList(this.postDataCopy)
+    },
+    handleMenuClick(row) {
+      console.log('row', row)
+      this.$router.push({ path: '/nstitutionalRating/rating/ratingEdit' })
     }
   },
-  created() {}
+  created() {
+    this.getRatingList()
+  }
 }
 </script>
 <style>

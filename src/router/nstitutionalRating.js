@@ -4,7 +4,7 @@ export default {
   meta: {
     isVerificationL: true,
     title: '医疗机构评级',
-    iconName: 'icon-setting'
+    iconName: 'icon-star-full'
   },
   component: resolve =>
     require(['../page/nstitutionalRating/nstitutionalRating'], resolve),
