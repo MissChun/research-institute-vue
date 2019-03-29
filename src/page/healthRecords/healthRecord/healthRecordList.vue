@@ -166,7 +166,7 @@ export default {
   },
   methods: {
     goAddLink() {
-      window.open(`/#/nstitutionalRating/rating/ratingEdit`, '_blank')
+      window.open(`/#/healthRecords/healthRecord/healthRecordDetail`, '_blank')
     },
     getHealthRecords() {
       this.pageLoading = true
@@ -181,6 +181,11 @@ export default {
         .catch(err => {
           this.pageLoading = false
         })
+    },
+    handleMenuClick() {
+      this.$router.push({
+        path: '/healthRecords/healthRecord/healthRecordDetail'
+      })
     }
   },
   created() {

@@ -131,7 +131,7 @@ export default {
         },
         {
           title: '机构类型',
-          param: 'enterprise_type',
+          param: 'enterprise.enterprise_type.type_name',
           width: ''
         },
         {
