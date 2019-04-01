@@ -144,10 +144,10 @@
       list-style-type: none;
       li {
         position: relative;
-
         height: 40px;
-        line-height: 20px;
         padding: 10px 20px;
+
+        line-height: 20px;
         color: #606266;
         text-align: left;
         word-break: break-all;
@@ -202,7 +202,7 @@
   <el-header>
     <el-row type="flex" class="g-head">
       <router-link :to="{path: '/'}">
-        <div href title="运输管理系统" class="logo" :class="isCollapse?'min-logo':'max-logo'">
+        <div href title="人群健康数据平台" class="logo" :class="isCollapse?'min-logo':'max-logo'">
           <img class="log-img" v-if="isCollapse" src="../../assets/img/logo.ico">
           <img class="log-img" v-else src="../../assets/img/logo.ico">
           <span>.人群健康数据平台</span>

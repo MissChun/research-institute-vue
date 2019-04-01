@@ -61,8 +61,8 @@ export default {
   data() {
     return {
       ruleForm: {
-        username: '18100000002',
-        password: '000002'
+        username: '',
+        password: ''
       },
       isLogin: false,
       userId: '',
