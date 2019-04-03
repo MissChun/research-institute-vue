@@ -13,16 +13,21 @@ import router from '../router'
 
 /* 接口超时时长设置 */
 let timeout = 60000
+/* 配置访问url */
+let domainUrl = ''
+export const getDomainUrl = function(prefix = '') {
+  let currentUrl = document.location.href.toString()
+  let domainUrl = ''
 
-let isProduction = true
-/*
-- 开发环境： http://dapi.shengdujk.com
-- 测试环境：http://tapi.shengdujk.com
-- 正式环境：http://api.shengdujk.com
-*/
-let domainUrl = isProduction
-  ? 'http://api.shengdujk.com'
-  : 'http://dapi.shengdujk.com'
+  if (currentUrl.match(`tr.shengdujk.com`)) {
+    domainUrl = `${prefix}api.shengdujk.com`
+  } else {
+    domainUrl = `${prefix}dapi.shengdujk.com` // 本地开发环境
+  }
+  return domainUrl
+}
+
+domainUrl = getDomainUrl('http://')
 
 let pending = [] // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
 let unCancelAjax = [] // 设定可以重复请求的ajax请求的apiname(str)。
@@ -39,7 +44,7 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-let removePending = (config, isCancel) => { }
+let removePending = (config, isCancel) => {}
 
 // 添加请求拦截器
 axios.interceptors.request.use(
@@ -86,7 +91,7 @@ axios.interceptors.response.use(
 )
 
 /* 统一处理网络问题或者代码问题造成的错误 */
-const errorState = function (error) {
+const errorState = function(error) {
   let errorMsg = ''
   if (error && error.response) {
     switch (error.response.status) {
@@ -146,7 +151,7 @@ const errorState = function (error) {
 }
 
 /* 根据后端接口文档统一处理错误信息 */
-const successState = function (response) {
+const successState = function(response) {
   if (response.data && response.data.code) {
     if (response.data.code === 401) {
       Message.error('登录过期，请重新登录')
@@ -155,7 +160,8 @@ const successState = function (response) {
       })
     } else if (response.data.code === 403) {
       Message.error('无操作权限')
-    } else if (response.data.code === 0) { } else {
+    } else if (response.data.code === 0) {
+    } else {
       if (response.data.msg) {
         Message.error(response.data.msg)
       }
@@ -164,7 +170,7 @@ const successState = function (response) {
 }
 
 /* 处理url */
-const dealApiUrlParam = function (apiName, postData) {
+const dealApiUrlParam = function(apiName, postData) {
   let httpUrl = api[apiName].url
 
   if (httpUrl) {
@@ -186,7 +192,7 @@ const dealApiUrlParam = function (apiName, postData) {
 }
 
 /* 处理http请求config */
-const dealConfig = function (apiName, postData) {
+const dealConfig = function(apiName, postData) {
   const httpConfig = {
     method: '',
     baseURL: domainUrl,
@@ -205,14 +211,16 @@ const dealConfig = function (apiName, postData) {
   httpConfig.method = method
 
   httpConfig.headers =
-    method === 'get' ? {
-      'X-Requested-With': 'XMLHttpRequest',
-      Accept: 'application/json',
-      'Content-Type': 'application/json; charset=UTF-8'
-    } : {
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
+    method === 'get'
+      ? {
+        'X-Requested-With': 'XMLHttpRequest',
+        Accept: 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+      : {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
 
   if (!api[apiName].notNeedToken) {
     httpConfig.headers.Authorization = token
@@ -264,7 +272,7 @@ export const httpServer = (
 
   let httpConfig = dealConfig(apiName, postData)
 
-  let promise = new Promise(function (resolve, reject) {
+  let promise = new Promise(function(resolve, reject) {
     axios(httpConfig)
       .then(res => {
         // 默认使用successState

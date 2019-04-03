@@ -201,13 +201,12 @@
   <!-- <div style="height: 60px;width: 100;"> -->
   <el-header>
     <el-row type="flex" class="g-head">
-      <router-link :to="{path: '/'}">
-        <div href title="人群健康数据平台" class="logo" :class="isCollapse?'min-logo':'max-logo'">
-          <img class="log-img" v-if="isCollapse" src="../../assets/img/logo.ico">
-          <img class="log-img" v-else src="../../assets/img/logo.ico">
-          <span>.人群健康数据平台</span>
-        </div>
-      </router-link>
+      <div href title="人群健康数据平台" class="logo" :class="isCollapse?'min-logo':'max-logo'">
+        <img class="log-img" v-if="isCollapse" src="../../assets/img/logo.ico">
+        <img class="log-img" v-else src="../../assets/img/logo.ico">
+        <span>.人群健康数据平台</span>
+      </div>
+
       <div class="nav">
         <el-row>
           <el-col :span="16">

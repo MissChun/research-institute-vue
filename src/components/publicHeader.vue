@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="12">
         <router-link :to="{path: '/'}">
-          <div title="运输管理系统" class="logo">
+          <div title="人群健康数据平台" class="logo">
             <img class="log-img" src="../assets/img/logo.ico">
             <span>.人群健康数据平台</span>
           </div>

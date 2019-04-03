@@ -67,11 +67,22 @@
           <el-table-column
             v-for="(item,key) in thTableList"
             :key="key"
-            :prop="item.param"
             align="center"
             :label="item.title"
             :width="item.width"
-          ></el-table-column>
+          >
+            <template slot-scope="scope">
+              <span v-if="item.param === 'gender'">
+                <span v-if="scope.row.profile.gender === '0'">女</span>
+                <span v-if="scope.row.profile.gender === '1'">男</span>
+                <span v-if="scope.row.profile.gender === '2'">未知</span>
+              </span>
+              <span
+                v-if="item.param !== 'gender'"
+                style="margin-left: 10px"
+              >{{ scope.row.profile[item.param]}}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="操作" align="center" width="150" fixed="right">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="handleMenuClick(scope.row)">查看</el-button>
@@ -132,32 +143,32 @@ export default {
       thTableList: [
         {
           title: '姓名',
-          param: 'profile.nick_name',
+          param: 'nick_name',
           width: ''
         },
         {
           title: '性别',
-          param: 'profile.gender',
+          param: 'gender',
           width: ''
         },
         {
           title: '年龄',
-          param: 'profile.age',
+          param: 'age',
           width: ''
         },
         {
           title: '身份证号',
-          param: 'profile.identity_card',
+          param: 'identity_card',
           width: ''
         },
         {
           title: '电话',
-          param: 'profile.mobile_number',
+          param: 'mobile_number',
           width: ''
         },
         {
           title: '疾病史',
-          param: 'profile.id_number',
+          param: 'id_number',
           width: ''
         }
       ],

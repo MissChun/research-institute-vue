@@ -31,7 +31,7 @@ export default {
             require(['../page/nstitutionalRating/rating/ratingList'], resolve)
         },
         {
-          path: 'ratingEdit',
+          path: 'ratingEdit/:id',
           name: 'ratingEdit',
           meta: {
             isVerificationL: true,
