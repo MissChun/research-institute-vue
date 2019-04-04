@@ -4,7 +4,7 @@ export default {
   meta: {
     isVerificationL: true,
     title: '人群健康档案',
-    iconName: 'icon-setting'
+    iconName: 'icon-briefcase'
   },
   component: resolve =>
     require(['../page/healthRecords/healthRecords'], resolve),
@@ -30,6 +30,18 @@ export default {
           component: resolve =>
             require([
               '../page/healthRecords/healthRecord/healthRecordList'
+            ], resolve)
+        },
+        {
+          path: 'healthRecordDetail',
+          name: 'healthRecordDetail',
+          meta: {
+            isVerificationL: true,
+            title: '人群健康档案详情'
+          },
+          component: resolve =>
+            require([
+              '../page/healthRecords/healthRecord/healthRecordDetail'
             ], resolve)
         }
       ]

@@ -4,7 +4,7 @@ export default {
   meta: {
     isVerificationL: true,
     title: '医疗机构评级',
-    iconName: 'icon-setting'
+    iconName: 'icon-star-full'
   },
   component: resolve =>
     require(['../page/nstitutionalRating/nstitutionalRating'], resolve),
@@ -31,11 +31,11 @@ export default {
             require(['../page/nstitutionalRating/rating/ratingList'], resolve)
         },
         {
-          path: 'ratingEdit',
+          path: 'ratingEdit/:id',
           name: 'ratingEdit',
           meta: {
             isVerificationL: true,
-            title: '医疗机构评级编辑'
+            title: '医疗机构评级'
           },
           component: resolve =>
             require(['../page/nstitutionalRating/rating/ratingEdit'], resolve)

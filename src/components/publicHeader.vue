@@ -3,8 +3,9 @@
     <el-row>
       <el-col :span="12">
         <router-link :to="{path: '/'}">
-          <div title="运输管理系统" class="logo">
-            <img class="log-img" src="../assets/img/91LNG.svg">
+          <div title="人群健康数据平台" class="logo">
+            <img class="log-img" src="../assets/img/logo.ico">
+            <span>.人群健康数据平台</span>
           </div>
         </router-link>
       </el-col>
@@ -33,52 +34,11 @@ export default {
   data: function() {
     return {}
   },
-  computed: {
-    // users: function() {
-    //   console.log('users', this.$store.state.common.users);
-    //   return this.$store.state.common.users;
-    // }
-  },
-  methods: {
-    // logout: function() {
-    //   this.$confirm("确定退出?", "提示", {
-    //       confirmButtonText: "确定",
-    //       cancelButtonText: "取消",
-    //       type: "warning"
-    //     })
-    //     .then(() => {
-    //       this.signOut();
-    //       this.$emit("logout");
-    //     })
-    //     .catch(() => {});
-    // },
-    // signOut: function() {
-    //   this.$$http('signOut', {}).then((results) => {
-    //     if (results.data && results.data.code == 0) {
-    //       this.$message({
-    //         message: '退出成功',
-    //         type: 'success'
-    //       });
-    //       localStorage.clear();
-    //       this.$store.state.common.users = {};
-    //       this.$router.push({ path: '/login' });
-    //     }
-    //   }).catch((err) => {
-    //     this.$message.error('退出失败');
-    //   })
-    //   this.$$http('signOut');
-    //   this.$message({
-    //     message: '退出成功',
-    //     type: 'success'
-    //   });
-    //   localStorage.clear();
-    //   this.$store.state.common.users = {};
-    //   this.$router.push({ path: '/login' });
-    // }
-  }
+  computed: {},
+  methods: {}
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .el-header {
   height: 65px !important;
   background: #fff;
@@ -96,11 +56,21 @@ export default {
   top: 6px;
 }
 
-.el-header img {
-  margin-top: 12px;
-}
-
 .text-right {
   text-align: right;
+}
+.log-img {
+  width: 50px;
+  vertical-align: middle;
+  margin-left: 3px;
+}
+.logo {
+  width: 229px;
+  height: 59px;
+
+  span {
+    color: #4a9bf8;
+    font-size: 14px;
+  }
 }
 </style>

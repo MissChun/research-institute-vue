@@ -13,45 +13,16 @@ import router from '../router'
 
 /* 接口超时时长设置 */
 let timeout = 60000
-
 /* 配置访问url */
 let domainUrl = ''
 export const getDomainUrl = function(prefix = '') {
-  // 掐指一算五个环境
   let currentUrl = document.location.href.toString()
   let domainUrl = ''
 
-  if (currentUrl.match('ptms.hhtdlng.com')) {
-    // 演示环境
-    domainUrl = `${prefix}ptms.hhtdlng.com`
-  } else if (currentUrl.match('ptms.91lng.cn')) {
-    // 预发环境
-    domainUrl = `${prefix}ptms.91lng.cn`
-  } else if (
-    currentUrl.match(`tms.hhtdlng.com`) &&
-    !currentUrl.match(`devtms.hhtdlng.com`) &&
-    !currentUrl.match(`vtms.hhtdlng.com`)
-  ) {
-    // 测试环境
-    domainUrl = `${prefix}api.hhtdlng.com/tms`
-  } else if (
-    currentUrl.match(`tms.91lng.cn`) &&
-    !currentUrl.match(`ptms.91lng.cn`) &&
-    !currentUrl.match(`testtms.91lng.cn`)
-  ) {
-    // 正式环境
-    domainUrl = `${prefix}api.91lng.com/tms`
-  } else if (currentUrl.match(`devtms.hhtdlng.com`)) {
-    // 开发环境
-    domainUrl = `${prefix}devtms.hhtdlng.com`
-  } else if (currentUrl.match(`testtms.91lng.cn`)) {
-    // 开发环境
-    domainUrl = `${prefix}testtms.91lng.cn`
-  } else if (currentUrl.match(`vtms.hhtdlng.com`)) {
-    // 开发环境
-    domainUrl = `${prefix}api.hhtdlng.com/tms`
+  if (currentUrl.match(`tr.shengdujk.com`)) {
+    domainUrl = `${prefix}api.shengdujk.com`
   } else {
-    domainUrl = `${prefix}ptms.91lng.cn` // 本地开发环境
+    domainUrl = `${prefix}dapi.shengdujk.com` // 本地开发环境
   }
   return domainUrl
 }
@@ -59,12 +30,7 @@ export const getDomainUrl = function(prefix = '') {
 domainUrl = getDomainUrl('http://')
 
 let pending = [] // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
-let unCancelAjax = [
-  'getTripRecords',
-  'getOfflineAndStopRecords',
-  'signOut',
-  'getTransPowerInfoList'
-] // 设定可以重复请求的ajax请求的apiname(str)。
+let unCancelAjax = [] // 设定可以重复请求的ajax请求的apiname(str)。
 let cancelToken = axios.CancelToken
 // let cancelLimitTime = 500 // 设置需要cancel的间隔时限
 
@@ -178,7 +144,9 @@ const errorState = function(error) {
     Message.error(errorMsg)
   }
   if (error && error.response && error.response.status === 401) {
-    router.push({ path: '/login' })
+    router.push({
+      path: '/login'
+    })
   }
 }
 
@@ -187,7 +155,9 @@ const successState = function(response) {
   if (response.data && response.data.code) {
     if (response.data.code === 401) {
       Message.error('登录过期，请重新登录')
-      router.push({ path: '/login' })
+      router.push({
+        path: '/login'
+      })
     } else if (response.data.code === 403) {
       Message.error('无操作权限')
     } else if (response.data.code === 0) {

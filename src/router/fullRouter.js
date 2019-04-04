@@ -5,7 +5,7 @@ export default [
   {
     path: '',
     name: 'index',
-    redirect: '/bigHealthData',
+    redirect: '/login',
     component: resolve => require(['../page/MainFirst'], resolve),
     meta: {
       title: '首页'

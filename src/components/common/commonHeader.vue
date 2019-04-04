@@ -33,10 +33,7 @@ export default {
   },
   computed: {
     users: function() {
-      // return this.pbFunc.getLocalData('users', true);
-      return {
-        nick_name: '测试'
-      }
+      return this.pbFunc.getLocalData('userInfo', true)
     }
   },
   created() {},
@@ -62,28 +59,6 @@ export default {
         cancelButtonText: '取消',
         type: 'info'
       }).then(() => {
-        this.wsMsg.close()
-        this.$$http('signOut', {}).then(results => {
-          if (results.data && results.data.code === 0) {
-            this.$message({
-              message: '退出成功',
-              type: 'success'
-            })
-
-            // growingio 发送用户name
-            let currentUrl = document.location.href.toString()
-            if (
-              currentUrl.match(`tms.91lng.cn`) &&
-              !currentUrl.match(`ptms.91lng.cn`) &&
-              !currentUrl.match(`testtms.91lng.cn`)
-            ) {
-              // 正式环境
-              // eslint-disable-next-line
-              gio('clearUserId')
-            }
-          }
-        })
-
         localStorage.clear()
         this.$router.push({ path: '/login' })
       })
