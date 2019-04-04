@@ -9,6 +9,7 @@
                 placeholder="请输入"
                 v-model="searchFilters.keyword"
                 class="search-filters-screen"
+                @keyup.native.13="startSearch"
               >
                 <el-select v-model="searchFilters.field" slot="prepend" placeholder="请选择">
                   <el-option
@@ -18,14 +19,14 @@
                     :value="item.id"
                   ></el-option>
                 </el-select>
-                <el-button slot="append" icon="el-icon-search"></el-button>
+                <el-button slot="append" icon="el-icon-search" @click="startSearch"></el-button>
               </el-input>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item label="性别:">
-                <el-select v-model="searchFilters.complete_status" placeholder="请选择">
+                <el-select v-model="searchFilters.gender" placeholder="请选择" @change="startSearch">
                   <el-option
                     v-for="(item,key) in selectData.perfectSelect"
                     :key="key"
@@ -37,7 +38,11 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="签约属性:">
-                <el-select v-model="searchFilters.complete_status" placeholder="请选择">
+                <el-select
+                  v-model="searchFilters.package_state"
+                  placeholder="请选择"
+                  @change="startSearch"
+                >
                   <el-option
                     v-for="(item,key) in selectData.select1"
                     :key="key"
@@ -118,26 +123,29 @@ export default {
         pageSize: 10
       },
       searchPostData: {}, // 搜索参数
+      postDataCopy: '',
       searchFilters: {
-        complete_status: '',
+        package_state: '',
+        gender: '',
         keyword: '',
-        field: 'tractor_plate_number'
+        field: 'nick_name'
       },
       selectData: {
         perfectSelect: [
           { id: '', value: '全部' },
-          { id: false, value: '男' },
-          { id: true, value: '女' }
+          { id: '2', value: '未知' },
+          { id: '1', value: '男' },
+          { id: '0', value: '女' }
         ],
         select1: [
           { id: '', value: '全部' },
-          { id: false, value: '已签约' },
-          { id: true, value: '未签约' }
+          { id: true, value: '已签约' },
+          { id: false, value: '未签约' }
         ],
         fieldSelect: [
-          { id: 'tractor_plate_number', value: '姓名' },
-          { id: 'semitrailer_plate_number', value: '身份证' },
-          { id: 'semitrailer_plate_number', value: '电话' }
+          { id: 'nick_name', value: '姓名' },
+          { id: 'identity_card', value: '身份证' },
+          { id: 'mobile_number', value: '电话' }
         ]
       },
       thTableList: [
@@ -179,9 +187,9 @@ export default {
     goAddLink() {
       window.open(`/#/healthRecords/healthRecord/healthRecordDetail`, '_blank')
     },
-    getHealthRecords() {
+    getHealthRecords(postData) {
       this.pageLoading = true
-      this.$$http('getHealthRecords')
+      this.$$http('getHealthRecords', postData)
         .then(results => {
           this.pageLoading = false
           if (results.data && results.data.code == 0) {
@@ -192,6 +200,24 @@ export default {
         .catch(err => {
           this.pageLoading = false
         })
+    },
+    startSearch() {
+      this.pageData.currentPage = 1
+      let postData = {
+        page: this.pageData.currentPage,
+        page_size: this.pageData.pageSize,
+        gender: this.searchFilters.gender,
+        search_type: this.searchFilters.field,
+        search: this.searchFilters.keyword,
+        package_state: this.searchFilters.package_state
+      }
+      this.postDataCopy = Object.assign({}, postData)
+      this.getHealthRecords(postData)
+    },
+    pageChange(page) {
+      console.log('page', page)
+      this.postDataCopy.page = page
+      this.getHealthRecords(this.postDataCopy)
     },
     handleMenuClick() {
       this.$router.push({

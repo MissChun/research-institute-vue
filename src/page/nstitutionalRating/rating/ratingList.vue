@@ -71,6 +71,7 @@
                 size="mini"
                 class="tags"
                 v-for="tag in scope.row.enterprise_rate.tag_list"
+                :key="tag._id"
               >{{tag.name}}</el-tag>
             </template>
           </el-table-column>
